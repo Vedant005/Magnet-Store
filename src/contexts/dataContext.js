@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { createContext } from "react";
 import { filterReducer } from "../reducers/filterReducer.jsx";
 import { useProduct } from "./productContext";
-import { SORT_BY_PRICE } from "../variables/variables.js";
+// import { SORT_BY_PRICE } from "../variables/variables.js";
 import { cartReducer } from "../reducers/cartReducer.jsx";
 
 
@@ -59,16 +59,16 @@ function DataProvider({children}){
     //     );
     //   }
 // console.log(filter)
-   if(state.choiceCategory.length>0){
-    filterpro=filterpro.filter((product)=>{
-        state.choiceCategory.includes(product.categoryName)
-    })
-   }
-   if(state.searchItem.length>0){
-    filterpro= filterpro.filter((product)=>{
-        product.title.toUpperCase().includes(state.searchItem.toUpperCase())
-    })
-   }
+//    if(state.choiceCategory.length>0){
+//     filterpro=filterpro.filter((product)=>{
+//         state.choiceCategory.includes(product.categoryName)
+//     })
+//    }
+//    if(state.searchItem.length>0){
+//     filterpro= filterpro.filter((product)=>{
+//         product.title.toUpperCase().includes(state.searchItem.toUpperCase())
+//     })
+//    }
  
 return filterpro;
 

@@ -1,10 +1,8 @@
 import "./header.css"
 import { NavLink } from "react-router-dom";
 import { IoMdCart } from "react-icons/io";
-import { IoMdSearch } from "react-icons/io";
-import { useData } from "../contexts/dataContext";
-import { SEARCH_PRODUCT } from "../variables/variables";
-import { useNavigate } from "react-router-dom";
+// import { useData } from "../contexts/dataContext";
+// import { useNavigate } from "react-router-dom";
 // import {Product} from "./pages/Product.jsx";
 
 const getStyle=({isActive})=>({
@@ -17,8 +15,8 @@ const getStyle=({isActive})=>({
 })
 
 export function Header() {
-  const {filterProuct,dispatchFilter} = useData();
-  const navigate = useNavigate();
+  // const {filterProuct,dispatchFilter} = useData();
+  // const navigate = useNavigate();
   // const handleSearch = (e) => {
   //   dispatchFilter({ type: SEARCH_PRODUCT, payload: e.target.value });
   //   navigate("/products");

@@ -5,7 +5,7 @@ import { useProduct } from "../contexts/productContext.js";
 export default function Filter(){
 
 const {filterProduct,dispatchFilter}=useData();
-  const {productState,choiceCategory}= useProduct();
+  const {choiceCategory}= useProduct();
 return(
 
         <div class="filter-container">
