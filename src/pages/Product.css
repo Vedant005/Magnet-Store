@@ -37,11 +37,6 @@ input[type="range"] {
 }
 
 
-.filter-container{
-    /* flex: 1 0 ;
-    overflow-y: auto; */
-    
-}
 
 .product-container{
     flex: 1;
