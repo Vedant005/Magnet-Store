@@ -1,9 +1,7 @@
 import { useParams } from "react-router-dom";
-import { useState,useEffect, useContext } from "react";
-import { useData } from "../contexts/dataContext";
-import { useNavigate } from "react-router-dom";
+import { useState,useEffect } from "react";
+
 import { useProduct } from "../contexts/productContext";
-import { CartContext } from "../contexts/CartContext";
 import AddToCart from "./AddToCart";
 export default function SingleProduct(){
    
@@ -48,7 +46,7 @@ return(
     <div>
     <h2>{title}</h2>
     
-       <img className="single-card-img" src ={img}/>
+       <img className="single-card" src ={img} alt="product"/>
    
     <p>{price}</p>
   <AddToCart singularProduct={getsingle}/>
