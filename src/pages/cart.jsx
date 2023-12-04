@@ -1,18 +1,16 @@
 
 
 
-import { NavLink, useParams } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Header } from "../components/Header";
-import { useData } from "../contexts/dataContext";
-import { useProduct } from "../contexts/productContext";
+
 import { Footer } from "../components/Footer";
 
 
 
 export default function Cart(){
-   const{cart, totalItems, addToCart,quantity, productQuantityIncrement, productQuantityDecrement, removeFromCart, priceOfAllItems, totalPriceDiscount, totalPrice ,setCart}=useContext(CartContext);
+   const{cart}=useContext(CartContext);
   
    
   
@@ -35,7 +33,7 @@ export default function Cart(){
       <div className="cart-main">
           {
             cart.map((item)=>{
-               const {_id,image,title,price,categoryName,ratings}=item;
+               const {_id,title,price,ratings}=item;
                return(
                <div className="cart-product-main" key={_id}>
                   

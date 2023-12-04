@@ -1,12 +1,11 @@
 
 // import { useData } from "../contexts/dataContext";
 import "./ProductPage.css"
-import React, { useContext } from "react";
+import React from "react";
 import Filter from "./filter";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import Product from "./Product.jsx";
-import { ProductContext, useProduct } from "../contexts/productContext";
 import { useData } from "../contexts/dataContext";
 export default function ProductPage(){
     // {state.map((product)=>{

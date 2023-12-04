@@ -1,12 +1,10 @@
 import axios from "axios";
 import React from "react";
-import { useParams } from "react-router-dom";
-import { createContext,useContext,useEffect,useState } from "react";
+import { createContext,useContext,useEffect } from "react";
 import { useReducer } from "react";
 import { GET_ALL_PRODUCTS, GET_CATEGORIES } from "../variables/variables";
 
 import { dataReducer } from "../reducers/dataReducer";
-import { categories } from "../backend/db/categories";
 export const ProductContext= createContext();
 
 const initial_state={
@@ -46,7 +44,7 @@ const getsingleProduct=async(productId)=>{
 const getCategory =async()=>{
     try{
         const{status,data}= await axios.get("api/categories")
-        if(status==200){
+        if(status===200){
             dispatch({type:GET_CATEGORIES,payload: data.categories})
         }
     }catch(e){
@@ -60,11 +58,7 @@ const getCategory =async()=>{
 useEffect(()=>{
     fetchData();
     getCategory();
-        // axios
-    // .get("/api/product")
-    // .then((res)=>
-    // console.log(res)
-    // )
+
 },[productState])
 
 

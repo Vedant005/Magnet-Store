@@ -27,7 +27,7 @@ export default function Wishlist(){
            <div className="wishList-main">
                {
                  wishList.map((item)=>{
-                    const {_id,image,title,price,categoryName,ratings}=item;
+                    const {_id,title,price,ratings}=item;
                     return(
                     <div className="wishList-product-main" key={_id}>
                        

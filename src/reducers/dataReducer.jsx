@@ -1,4 +1,3 @@
-import { DataProvider } from "../contexts/dataContext";
 import { GET_ALL_PRODUCTS } from "../variables/variables";
 import { GET_SINGLE_PRODUCT } from "../variables/variables";
 import { GET_CATEGORIES } from "../variables/variables";

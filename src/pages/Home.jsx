@@ -1,6 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
-import axios from "axios";
+
 import { Header } from "../components/Header.jsx";
 import { Footer } from "../components/Footer.jsx";
 import  bowl from "../images/bowl.jpg";
@@ -39,22 +38,22 @@ export default function Home() {
          
 
           <div>
-            <img class="category-image" src={bowl}alt="bowl-image"/>
+            <img class="category" src={bowl}alt="bowl"/>
            <div>Bowl</div>
           </div>
 
         
           <div>
-            <img class="category-image" src={glass}alt="glass-image"/>
+            <img class="category" src={glass}alt="glass"/>
             <div>Glass</div>
           </div>
 
           <div>
-            <img class="category-image" src={plates}alt="plates-image"/>
+            <img class="category" src={plates}alt="plates"/>
             <div>Plates</div>
           </div>
           <div>
-            <img class="category-image" src={dinnerset}alt="dinnerset-image"/>
+            <img class="category" src={dinnerset}alt="dinnerset"/>
             <div>Dinnerset</div>
           </div>
     </div>
@@ -62,19 +61,19 @@ export default function Home() {
     <div class="featured-brands">
        
       < div>
-            <img class="brand-image" src={milton}alt="milton-image"/>
+            <img class="brand" src={milton}alt="milton"/>
           
           </div>
           < div>
-            <img class="brand-image" src={Borosil}alt="borosil-image"/>
+            <img class="brand" src={Borosil}alt="borosil"/>
           
           </div>
           < div>
-            <img class="brand-image" src={treo}alt="treo-image"/>
+            <img class="brand" src={treo}alt="treo"/>
           
           </div>
           < div>
-            <img class="brand-image" src={claycraft}alt="claycraft-image"/>
+            <img class="brand" src={claycraft}alt="claycraft"/>
           
           </div>
           

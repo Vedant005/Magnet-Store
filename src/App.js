@@ -1,12 +1,8 @@
 import "./App.css";
 import React from "react";
-import logo from "./logo.png";
-import {useState} from "react"
-import { useEffect } from "react";
-import axios from "axios";
+
 
 import Home from "./pages/Home.jsx";
-import Product from "./pages/Product.jsx";
 import Login from "./pages/login.jsx";
 import Cart from "./pages/cart.jsx";
 import { Routes, Route } from "react-router-dom";

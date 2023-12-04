@@ -1,13 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Header } from "../components/Header.jsx";
-import { Footer } from "../components/Footer.jsx";
+import React, { useContext } from "react";
+
 import "./Product.css"
-import naturabowl from "../images/naturabowl.jpg";
-import { ProductsContext, useProduct } from "../contexts/productContext.js";
-import Filter from "./filter.jsx";
+
 import { FaHeart } from "react-icons/fa6";
-import { WishlistContext, useWish } from "../contexts/WishlistContext.js";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import {  useWish } from "../contexts/WishlistContext.js";
+import {  useNavigate} from "react-router-dom";
 import { CartContext } from "../contexts/CartContext.js";
 export default function Product({product}){
    const {addToCart}= useContext(CartContext);
@@ -17,13 +14,9 @@ export default function Product({product}){
    const {
     _id,
     title,
-    inStock,
-    categoryName,
-    brandName,
+  
     price,
-    discount,
-    ratings,
-    description,
+   
     img
   } = product
   const navigate=useNavigate();
