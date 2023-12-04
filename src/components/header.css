@@ -1,0 +1,27 @@
+
+
+.title{
+    text-align: left;
+    padding: 3 rem;
+    border:2 rem;
+ }
+ .container{
+    display:flex;
+    background-color: rgb(191, 196, 191);
+    
+   /* align-content: baseline; */
+   /* position:fixed; */
+ }
+ .search-bar{
+    align-self: center;
+ }
+ 
+ .nav-link{
+    display: gird;
+       
+
+   
+ }
+ a.nav-link{
+   
+ }

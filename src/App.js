@@ -1,43 +1,51 @@
 import "./App.css";
+import React from "react";
 import logo from "./logo.png";
+import {useState} from "react"
+import { useEffect } from "react";
+import axios from "axios";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} alt="mockBee logo" width="180" height="180" />
-        <h1 className="brand-title">
-          Welcome to <span>mockBee!</span>
-        </h1>
-        <p className="brand-description">
-          Get started by editing <code>src/App.js</code>
-        </p>
-        <div className="links">
-          <a
-            href="https://mockbee.netlify.app/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Explore mockBee
-          </a>
-          <a
-            href="https://mockbee.netlify.app/docs/api/introduction"
-            target="_blank"
-            rel="noreferrer"
-          >
-            API Documentation
-          </a>
-          <a
-            href="https://github.com/neogcamp/mockBee"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Contribute
-          </a>
-        </div>
-      </header>
-    </div>
-  );
+import Home from "./pages/Home.jsx";
+import Product from "./pages/Product.jsx";
+import Login from "./pages/login.jsx";
+import Cart from "./pages/cart.jsx";
+import { Routes, Route } from "react-router-dom";
+import { RequiresAuth } from "./components/requiresAuth.js";
+import SingleProduct from "./components/singleProduct";
+import ProductPage from "./pages/ProductPage";
+import Wishlist from "./pages/Wishlist.jsx";
+function App(){
+      
+
+
+
+
+
+   return (
+  <div className="App">
+
+     
+
+    <Routes>
+       <Route path="/" element={<Home />} />
+       <Route path="/product" element={<ProductPage/>} />
+       <Route path="/product/:productId" element={<SingleProduct />} />
+        <Route path="/cart" element ={<RequiresAuth><Cart/></RequiresAuth>}/>
+        <Route path="/wishlist" element ={<RequiresAuth><Wishlist/></RequiresAuth>}/>
+       <Route
+        path="/login"
+        element={
+        
+            <Login />
+         
+        }
+      />
+      
+    </Routes>
+    {/* <Mockman/> */}
+  </div>
+);
 }
 
+    
 export default App;

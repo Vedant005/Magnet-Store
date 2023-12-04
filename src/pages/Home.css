@@ -1,0 +1,45 @@
+
+
+.hero-container{
+    background: url(/src/images/glassware.jpg);
+    /* display: flex; */
+    background-size:cover;
+   
+    display: flex;
+   justify-content: flex-end;
+   
+   
+   width: 98vw;
+  height: 90vh;
+}
+
+.category-image{
+    width: 300px;
+    height: 200px;
+    padding:2rem;
+    cursor: pointer;
+}
+.featured-brands{
+    display:flex;
+    grid-area:10px;
+    
+
+}
+.brand-image{
+    padding:3.4rem;
+}
+.info{
+    
+    position: absolute; 
+  bottom:0;
+  right:0;
+  justify-self:center;
+  background-color: rgb(70, 37, 204);
+  padding: 2 rem;
+  height:  30vh;
+  
+}
+
+.category-container{
+    display: flex;
+}

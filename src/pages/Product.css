@@ -1,0 +1,58 @@
+.product-container{
+     border: solid;
+    padding: 1rem;
+     width: 35vh;
+    height: 50vh;   
+}
+.image-tag{
+    width :200px;
+    height: 200px;
+}
+.card-div{
+    width:50vh;
+    
+}
+
+.wishlist-icon{
+    position: absolute;
+    cursor: pointer;
+      
+    border:none;
+    border-radius: 50%;
+}
+input[type="range"] {
+    width:200px;
+  }
+  
+
+
+
+.price-range {
+    display: flex;
+    width: 10rem;
+    justify-content: space-between;
+    grid-gap: 0.5rem;
+    gap: 0.5rem;
+
+}
+
+
+.filter-container{
+    /* flex: 1 0 ;
+    overflow-y: auto; */
+    
+}
+
+.product-container{
+    flex: 1;
+}
+
+.categories{
+    display: grid;
+    
+}
+
+.ratings{
+  display:flex;
+  flex-direction: column;
+}
