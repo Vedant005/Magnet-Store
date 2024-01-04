@@ -10,6 +10,7 @@ import { RequiresAuth } from "./components/requiresAuth.js";
 import SingleProduct from "./components/singleProduct";
 import ProductPage from "./pages/ProductPage";
 import Wishlist from "./pages/Wishlist.jsx";
+import { UserDetails } from "./components/userDetails.jsx";
 function App(){
       
 
@@ -28,14 +29,15 @@ function App(){
        <Route path="/product/:productId" element={<SingleProduct />} />
         <Route path="/cart" element ={<RequiresAuth><Cart/></RequiresAuth>}/>
         <Route path="/wishlist" element ={<RequiresAuth><Wishlist/></RequiresAuth>}/>
+       <Route path="/login"element={ <Login />}/>
        <Route
-        path="/login"
+        path ="userDetails" 
         element={
-        
-            <Login />
-         
+          <RequiresAuth>
+            <UserDetails/>
+          </RequiresAuth>
         }
-      />
+       />
       
     </Routes>
     {/* <Mockman/> */}

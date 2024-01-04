@@ -1,9 +1,7 @@
 import "./header.css"
 import { NavLink } from "react-router-dom";
 import { IoMdCart } from "react-icons/io";
-// import { useData } from "../contexts/dataContext";
-// import { useNavigate } from "react-router-dom";
-// import {Product} from "./pages/Product.jsx";
+import { useUser } from "../contexts/UserContext";
 
 const getStyle=({isActive})=>({
     color: isActive ? "red" : "",
@@ -21,7 +19,7 @@ export function Header() {
   //   dispatchFilter({ type: SEARCH_PRODUCT, payload: e.target.value });
   //   navigate("/products");
   // };
-
+   const {authState}= useUser();
     return (
         <header>
           <div className="container">
@@ -56,7 +54,15 @@ export function Header() {
         <IoMdCart />
 
         </NavLink>
-     <NavLink style={getStyle} to="/login"  className="nav-link">
+     <NavLink style={getStyle} 
+     to={
+      authState?.isLoggedIn
+      ? "/userDetails"
+      : "/login"
+     }
+     
+     
+     className="nav-link">
          Login
         </NavLink>
      </nav>

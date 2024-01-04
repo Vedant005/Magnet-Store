@@ -29,8 +29,9 @@ export default function SingleProduct(){
    }
 }
 useEffect(()=>{
-  getProduct() 
-},{})
+  getProduct();
+// eslint-disable-next-line
+},[])
 
 
     // const indvidualProduct= data?.find(({_id})=>productId===_id)

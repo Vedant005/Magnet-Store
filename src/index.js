@@ -10,6 +10,7 @@ import { ProductProvider } from "./contexts/productContext";
 import { CartProvider } from "./contexts/CartContext";
 import { DataProvider } from "./contexts/dataContext";
 import { WishlistProvider } from "./contexts/WishlistContext";
+import { UserProvider } from "./contexts/UserContext";
 export {AuthContext};
 // Call make Server
 makeServer();
@@ -17,17 +18,19 @@ makeServer();
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-        <AuthProvider>
-          <ProductProvider>
-           <DataProvider>
-              <CartProvider>
+        {/* <AuthProvider> */}
+          <UserProvider>
+           <ProductProvider>
+             <DataProvider>
+               <CartProvider>
                 <WishlistProvider>
-              <App />
+                  <App />
                 </WishlistProvider>
               </CartProvider>
               </DataProvider>
           </ProductProvider>
-    </AuthProvider>
+        </UserProvider>
+    {/* </AuthProvider> */}
     </Router>
     </React.StrictMode>,
   document.getElementById("root")
