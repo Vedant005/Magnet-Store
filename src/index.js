@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { makeServer } from "./server";
-import { AuthContext, AuthProvider } from "./contexts/AuthContext";
+// import { AuthContext, AuthProvider } from "./contexts/AuthContext";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import { ProductProvider } from "./contexts/productContext";
@@ -11,7 +11,7 @@ import { CartProvider } from "./contexts/CartContext";
 import { DataProvider } from "./contexts/dataContext";
 import { WishlistProvider } from "./contexts/WishlistContext";
 import { UserProvider } from "./contexts/UserContext";
-export {AuthContext};
+// export {AuthContext};
 // Call make Server
 makeServer();
 
