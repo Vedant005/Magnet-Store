@@ -11,6 +11,7 @@ import SingleProduct from "./components/singleProduct";
 import ProductPage from "./pages/ProductPage";
 import Wishlist from "./pages/Wishlist.jsx";
 import { UserDetails } from "./components/userDetails.jsx";
+import Signup from "./pages/Signup.jsx";
 function App(){
       
 
@@ -38,6 +39,7 @@ function App(){
           </RequiresAuth>
         }
        />
+       <Route path="signup" element= {<Signup/>}/>
       
     </Routes>
     {/* <Mockman/> */}

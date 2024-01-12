@@ -31,8 +31,6 @@ function UserProvider ({children}){
             // toast.success("Login Successful!");
             navigate(
               location?.state?.from?.pathname
-                ? location?.state?.from?.pathname
-                : "/"
             );
           }
         } catch (e) {
@@ -41,11 +39,11 @@ function UserProvider ({children}){
         //   toast.error(e.response.data.errors[0]);
         }
       };
-          const signup = async(signData)=>{
+    const signup = async(signData)=>{
 
-            try{
+          try{
               const {data,status} = await axios.post(`/api/auth/signup`,signData)
-              if(status===200){
+              if(status===201){
                 localStorage.setItem("token", data?.encodedToken);
                 authDispatch({ type: "SET_LOGGEDIN_TRUE", payload: true });
                 authDispatch({ type: "SET_USER", payload: data?.createdUser });

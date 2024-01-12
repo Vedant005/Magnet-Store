@@ -20,7 +20,7 @@ function DataProvider({children}){
 
     const initialFilterValue={
         sortBy:"",
-        pricerange:5000,
+        pricerange: { min: 0, max: 1100 },
         choiceCategory:[],
         searchItem:""
      }
@@ -36,7 +36,6 @@ function DataProvider({children}){
     //    console.log(productState?.everyProduct.products)
     let filterpro = everyProduct?.products
     const getData = (state) => {
-    
           if(state.sortBy === "hightolow")
     filterpro=filterpro.sort(function(a,b){
         return b.price - a.price;
@@ -46,18 +45,19 @@ function DataProvider({children}){
    else if(state.sortBy === "lowtohigh")
     filterpro=filterpro.sort(function(a,b){
         return a.price -  b.price;
-    })
+    }) 
+  
 
     /// Filters for price range input
-    // if (state.pricerange !== "") {
-    //  filterpro= filterpro.filter(({price}) => 
-    //     //   return (
-    //     //     product.price >= state.pricerange.min &&
-    //     //     product.price <= state.pricerange.max
-    //     //   );
-    //      Number(price)<=Number*filterProduct?.pricerange
-    //     );
-    //   }
+//     if (state.pricerange !== "") {
+//         filterpro = filterpro.filter((product) => {
+//           return (
+//             product.price >= state.pricerange.min &&
+//             product.price <= state.pricerange.max
+//           );
+//         });
+//       }
+//   console.log(filterpro)
 // console.log(filter)
 //    if(state.choiceCategory.length>0){
 //     filterpro=filterpro.filter((product)=>{

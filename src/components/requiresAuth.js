@@ -5,6 +5,7 @@ export  function RequiresAuth({ children }) {
   let location = useLocation();
   // const { isLoggedIn } = useContext(AuthContext);
     const {authState}=useContext(UserContext);
+    
   return authState.isLoggedIn ? (
     children
   ) : (

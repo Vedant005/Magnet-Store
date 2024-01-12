@@ -1,4 +1,5 @@
 import { useUser } from "../contexts/UserContext";
+import { Header } from "./Header";
 
 export const UserDetails =()=>{
     const {authState,userLogout}= useUser();
@@ -6,12 +7,12 @@ export const UserDetails =()=>{
 
     return(
         <div className="user-class">
-
-            <h1>{authState?.users?.firstName} {authState?.users?.lastName}</h1>
-             <p>{authState?.users?.email}</p>
+          <Header/>
+            <h1>{authState?.user?.firstName} {authState?.user?.lastName}</h1>
+             <p>{authState?.user?.email}</p>
 
              <button onClick={userLogout} className="logout-btn">
-            Logout
+               Logout
              </button>
         </div>
     )

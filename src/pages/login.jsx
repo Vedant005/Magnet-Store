@@ -4,12 +4,13 @@ import { Header } from "../components/Header.jsx";
 // import { useContext } from "react";
 // import { AuthContext } from "../contexts/AuthContext.js";
 import { useUser } from "../contexts/UserContext.js";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Login() {
-  
-   const {userLogin}=useUser(); 
-
+    const navigate = useNavigate();
+   const {userLogin,authState}=useUser(); 
+console.log(authState)
   // const[username,setUsername]= useState(" ")
   // const [password,setPassword]= useState("")  
   
@@ -33,7 +34,7 @@ export default function Login() {
   };
 
   const loginHandler = (e) => {
-   
+     e.preventDefault();
       userLogin(userData);
     }
   
@@ -72,7 +73,7 @@ export default function Login() {
         onChange={(e) =>
          setUserData((item) => ({ ...item, password: e.target.value }))
                 }
-          
+          required
          />
        <hr/>
 
@@ -84,6 +85,10 @@ export default function Login() {
           <button className="login-button guest" onClick={loginAsGuestHandler}>
             Login As Guest
           </button>
+
+          <p onClick={() => navigate("/signup")}>
+          Create New account
+        </p>
      </div>
      </div>
         
