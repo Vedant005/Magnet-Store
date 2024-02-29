@@ -12,6 +12,7 @@ import ProductPage from "./pages/ProductPage";
 import Wishlist from "./pages/Wishlist.jsx";
 import { UserDetails } from "./components/userDetails.jsx";
 import Signup from "./pages/Signup.jsx";
+import Checkout from "./pages/checkout.jsx";
 function App(){
       
 
@@ -28,8 +29,8 @@ function App(){
        <Route path="/" element={<Home />} />
        <Route path="/product" element={<ProductPage/>} />
        <Route path="/product/:productId" element={<SingleProduct />} />
-        <Route path="/cart" element ={<RequiresAuth><Cart/></RequiresAuth>}/>
-        <Route path="/wishlist" element ={<RequiresAuth><Wishlist/></RequiresAuth>}/>
+        <Route path="/cart" element ={<Cart/>}/>
+        <Route path="/wishlist" element ={<Wishlist/>}/>
        <Route path="/login"element={ <Login />}/>
        <Route
         path ="userDetails" 
@@ -39,10 +40,10 @@ function App(){
           </RequiresAuth>
         }
        />
+       <Route path="/checkout" element={<Checkout/>}/>
        <Route path="signup" element= {<Signup/>}/>
-      
     </Routes>
-    {/* <Mockman/> */}
+   
   </div>
 );
 }

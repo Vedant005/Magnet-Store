@@ -4,7 +4,7 @@ export  function Footer(){
     return(
   <div class="footer-container">
     <h1>
-        This is Footer
+       Made by Vedant with React
     </h1>
 
   </div>

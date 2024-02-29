@@ -2,12 +2,13 @@
     display: flex;
     flex-direction: row;
     gap:5rem;
+    justify-content: center;
     
     
   }
-  .filter-div{
+  /* .filter-div{
   flex: 1 1 auto
- }
+ } */
   .product-div {
     /* display: flex;
     flex-direction: column;

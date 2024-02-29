@@ -2,83 +2,80 @@ import React from "react";
 
 import { Header } from "../components/Header.jsx";
 import { Footer } from "../components/Footer.jsx";
-import  bowl from "../images/bowl.jpg";
-import  glass from "../images/glass.jpg";
-import  plates from "../images/plates.jpg";
-import  dinnerset from "../images/dinnerset.jpg";
-import  milton from "../images/milton.png";
-import  Borosil from "../images/Borosil.png";
-import  treo from "../images/treo.png";
-import  claycraft from "../images/claycraft.jpg";
-import "./Home.css"
 
+import "./Home.css"
+import { useData } from "../contexts/dataContext.js";
+import { useProduct } from "../contexts/productContext.js";
+import { useNavigate } from "react-router-dom";
 export default function Home() {
-        
-  // useEffect(()=>{
-  // axios 
-  // .get("/api/products")
-  // .then((res)=>
-  // console.log(res))
-  // },[])
+  const {dispatchFilter}=useData();
+  const {choiceCategory}= useProduct();
+  const navigate = useNavigate();
+
+
   return (
    <div class="main-container">
- <Header />
+    <div className="header-div">
+
  
-   
+      <Header />
+     </div> 
+   <div className="main-content">
    <div class="hero-container">
-    <div class="info">
-        <h1>Unveiling the new</h1>
-    <p>Upto 80% off</p>
-    <button class="primary"> SHOP NOW</button>
-    </div>
+     <div className="heroimg">
+
+      <div className=" hero-details">
+      <div className="desc">
+       Welcome!
+      
+      
+        <button className="primary" onClick={()=> navigate("/product")}> SHOP NOW</button>
+        </div>
+      </div>
+
+
+     </div>
+ 
     
     </div>
+    <div className="category-heading">
     <h1>Featured Categories</h1>
-    <div class="category-container">
+    </div>
+     
+     <div class="category-container">
          
+         <div className="e-category">
+         {choiceCategory?.map(({ _id, categoryName,img  }) => {
+          return(
+            <div key={_id}
+              
+               className="featured-cat-details"
+                onClick={() =>{
+                  dispatchFilter({
+                    type: "FILTER_BY_CATEGORY",
+                    payload: categoryName,
+                  })
+                  navigate("./product")
+                }}
+              >    
+                <div className="featured-card-image">
+                    <img src={img} alt={categoryName} width="100%" height="100%" />
+                  
+                   <div className="featured-card-details">
+                     <p className="featured-card-title">{categoryName}</p>
+                   </div>  
+                  </div>    
+            </div>
+          )})}
+         </div>
+         </div>
 
-          <div>
-            <img class="category" src={bowl}alt="bowl"/>
-           <div>Bowl</div>
-          </div>
+        </div>
+     
+    <div className="footer-section">
 
-        
-          <div>
-            <img class="category" src={glass}alt="glass"/>
-            <div>Glass</div>
-          </div>
-
-          <div>
-            <img class="category" src={plates}alt="plates"/>
-            <div>Plates</div>
-          </div>
-          <div>
-            <img class="category" src={dinnerset}alt="dinnerset"/>
-            <div>Dinnerset</div>
-          </div>
-    </div>
-    <h1> Featured Brands</h1>
-    <div class="featured-brands">
-       
-      < div>
-            <img class="brand" src={milton}alt="milton"/>
-          
-          </div>
-          < div>
-            <img class="brand" src={Borosil}alt="borosil"/>
-          
-          </div>
-          < div>
-            <img class="brand" src={treo}alt="treo"/>
-          
-          </div>
-          < div>
-            <img class="brand" src={claycraft}alt="claycraft"/>
-          
-          </div>
-          
-    </div>
     <Footer/>
+    </div>
     </div>
   );
 }

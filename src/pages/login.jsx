@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { Header } from "../components/Header.jsx";
-// import { useLocation, useNavigate } from "react-router";
-// import { useContext } from "react";
-// import { AuthContext } from "../contexts/AuthContext.js";
+
 import { useUser } from "../contexts/UserContext.js";
 import { useNavigate } from "react-router-dom";
-
+import "./login.css"
 
 export default function Login() {
     const navigate = useNavigate();
@@ -35,6 +33,7 @@ console.log(authState)
 
   const loginHandler = (e) => {
      e.preventDefault();
+     
       userLogin(userData);
     }
   
@@ -46,17 +45,19 @@ console.log(authState)
   };
     return(
        <div>
-        <div>
-        <Header/>
-    </div>
-         <div class="main-container">
-       <h1>LOGIN HERE</h1>
-       <label>Enter email</label>
+           <Header/>
+    
+    
+
+     <div class="login-container">
+     <h1>LOGIN HERE</h1>
+       <div>
+       {/* <label>Enter email</label> */}
        <input 
        type="text"
         id="email" 
         className="email-in"
-        placeholder="abc@gmail.com"
+        placeholder="Enter email"
         value={userData.email}
         onChange={(e)=>
         setUserData((item)=>({...item,email:e.target.value}))
@@ -64,18 +65,20 @@ console.log(authState)
         }
         required
         />
-       <hr/>
-       <label>Enter password</label>
+        </div>
+        <div>
+       {/* <label>Enter password</label> */}
        <input type="password" 
        id="password"
         className="password-in"
-        placeholder="*******"
+        placeholder="Enter password"
+        value={userData.password}
         onChange={(e) =>
          setUserData((item) => ({ ...item, password: e.target.value }))
                 }
           required
          />
-       <hr/>
+         </div>
 
         
        <button className="login-button" onClick={loginHandler}>

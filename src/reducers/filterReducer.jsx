@@ -1,5 +1,5 @@
 
-import { SORT_BY_PRICE,SORT_BY_RANGE,FILTER_BY_CATEGORY, SEARCH_PRODUCT } from "../variables/variables.js";
+import { SORT_BY_PRICE,SORT_BY_RANGE,FILTER_BY_CATEGORY, SEARCH_PRODUCT ,SORT_BY_RATING ,CLEAR_ALL_FILTERS} from "../variables/variables.js";
 const filterReducer=(state,action)=>{
     switch(action.type){
         case  SORT_BY_PRICE:
@@ -17,10 +17,22 @@ const filterReducer=(state,action)=>{
             : [...state.choiceCategory, action.payload];
         return{...state,choiceCategory:updatedCategory}
 
+        case SORT_BY_RATING:
+            return{...state,ratings:action.payload}
+
+
         case SEARCH_PRODUCT:
-            return{...state,searchItem:action.payload}
+            return{...state,search:action.payload}
 
-
+         case CLEAR_ALL_FILTERS:
+          return {
+                  search: "",
+                  pricerange: 5000,
+                  choiceCategory: [],
+                  ratings: "",
+                  sortBy: "",
+                };
+          
 
 
 

@@ -1,7 +1,7 @@
 import { useWish } from "../contexts/WishlistContext";
 import { Header  } from "../components/Header";
-import { Footer } from "../components/Footer";
 
+import "./wishlist.css"
 
 
 
@@ -11,12 +11,10 @@ export default function Wishlist(){
 
     return(
         <div>
-           {/* <div>
-           <Header/>
-           </div> */}
+           
            <Header/>
            <h1> Items in wishList: {wishList.length} </h1>
-        
+        <div className="wishlist">
         <div className="wishList-info-card">
      
            {wishList.length ===0 ?(
@@ -61,7 +59,8 @@ export default function Wishlist(){
               )}
       
         </div>
-         <Footer/>
+        </div>
+        
         </div>
        )
 

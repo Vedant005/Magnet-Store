@@ -2,7 +2,16 @@ import "./header.css"
 import { NavLink } from "react-router-dom";
 import { IoMdCart } from "react-icons/io";
 import { useUser } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+import { useData } from "../contexts/dataContext";
 
+import { BsShop } from "react-icons/bs";
+import { FaRegHeart } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
+
+
+
+import { useState } from "react";
 const getStyle=({isActive})=>({
     color: isActive ? "red" : "",
     border: "1 rem",
@@ -13,61 +22,61 @@ const getStyle=({isActive})=>({
 })
 
 export function Header() {
-  // const {filterProuct,dispatchFilter} = useData();
-  // const navigate = useNavigate();
-  // const handleSearch = (e) => {
-  //   dispatchFilter({ type: SEARCH_PRODUCT, payload: e.target.value });
-  //   navigate("/products");
-  // };
+  const navigate = useNavigate();
+  const {dispatchFilter} = useData();
+  const [searchText,setSearchText] =  useState("")
+
    const {authState}= useUser();
     return (
         <header>
-          <div className="container">
-              <h2 className="title">  magnet store</h2>
-            <nav>
-              
-        <NavLink style={getStyle} to="/" className="nav-link">
-          Home
-        </NavLink>
-
-        <NavLink style={getStyle} to="/product"  className="nav-link">
-         Product
-        </NavLink>
-
-     </nav>
+          <div>
+          <div className= "container">
+            <div className="title-container">
+              <h2 className="title" onClick={()=> navigate("/")}>  magnet store</h2>
+          </div>
+   <div className="links-container">
       <label className="search-bar" >
         <input type="text"  
-         placeholder="search for item"
-        //  value={filterProuct.searchItem}
-        //  onChange={handleSearch}
-         />
+          className="search-item"
+          value = {searchText}
+          onChange={(e)=>{
+            setSearchText(e.target.value);
+            e.target.value.trim() !== "" && navigate("/product");
+            dispatchFilter({ type: "SEARCH_PRODUCT", payload:searchText });
+          }          }
+         placeholder="search for item" 
+      
+         ></input>
         
       </label>
-     <nav>
-     {/* <NavLink style={getStyle} to="/profile"  className="nav-link">
-          Profile  </NavLink> */}
+ 
+ 
+     <NavLink style={getStyle} to="/product"  className="nav-link">
+        <BsShop className="shop"/>
+        </NavLink>
+
 
         <NavLink style={getStyle} to="/wishlist"  className="nav-link">
-          Wishlist
+        <FaRegHeart className="heart"/>
         </NavLink>
-        <NavLink style={getStyle} to="/cart">
-        <IoMdCart />
 
+        <NavLink style={getStyle} to="/cart">
+        <IoMdCart className="cart"/>
         </NavLink>
+
+
      <NavLink style={getStyle} 
      to={
       authState?.isLoggedIn
       ? "/userDetails"
       : "/login"
-     }
-     
-     
+     }   
      className="nav-link">
-         Login
+         <FaRegUser className="login"/>
         </NavLink>
-     </nav>
     
-     
+     </div>
+      </div>
       </div>
       </header>
     );

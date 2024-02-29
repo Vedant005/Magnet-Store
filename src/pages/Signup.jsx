@@ -2,10 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
 import { useState } from "react";
 import { Header } from "../components/Header";
+import "./signup.css"
 export default function Signup(){
 
     const {signup}= useUser();
-      console.log(signup);
+      
      const navigate  = useNavigate();
      const [userDetails, setUserDetails] = useState({
         firstName: "",
@@ -51,7 +52,7 @@ export default function Signup(){
         <div>
             <Header/>
             <h1>Signup</h1>
-
+   <div className="signup-container">
             <div className="name">
           <div>
             <label for="first-name">First Name</label>
@@ -153,7 +154,7 @@ export default function Signup(){
 
 
         
-           
+        </div>
         </div>
         
 

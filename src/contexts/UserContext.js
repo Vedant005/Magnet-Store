@@ -44,6 +44,7 @@ function UserProvider ({children}){
           try{
               const {data,status} = await axios.post(`/api/auth/signup`,signData)
               if(status===201){
+                
                 localStorage.setItem("token", data?.encodedToken);
                 authDispatch({ type: "SET_LOGGEDIN_TRUE", payload: true });
                 authDispatch({ type: "SET_USER", payload: data?.createdUser });

@@ -1,18 +1,31 @@
-import "./Product.css"
+import "./filter.css"
 import { useData } from "../contexts/dataContext";
-import { SORT_BY_PRICE ,SORT_BY_RANGE} from "../variables/variables.js";
+import { SORT_BY_PRICE ,SORT_BY_RANGE ,CLEAR_ALL_FILTERS,SORT_BY_RATING} from "../variables/variables.js";
 import { useProduct } from "../contexts/productContext.js";
 export default function Filter(){
 
 const {filterProduct,dispatchFilter}=useData();
   const {choiceCategory}= useProduct();
+
+ const ratingsArr = [4,3,2,1];
+
+
 return(
 
         <div class="filter-container">
         <div>  
            <h2>FILTER</h2> 
-           <p>CLEAR ALL</p>
+           <hr/>
+          < label
+            onClick={() =>
+              dispatchFilter({ type: CLEAR_ALL_FILTERS, payload: "" })
+            }
+          >
+            Clear
+          </label>
+          <hr/>
         </div>
+        
 
          <div>
            <p>SORT</p>
@@ -29,7 +42,7 @@ return(
            Price- Low To High
           
            </label>
-           <br/>
+       <br/>
            <label >
                <input type= "radio"
                className="checkbox"
@@ -43,15 +56,16 @@ return(
            Price- High to Low
           
            </label>
-           </div>  
+           </div> 
+           <hr/> 
 
            <div>
            <p>PRICE</p>
            <div className="price-range">
                                 
-                                <p>1000</p>
-                                <p>2000</p>
-                               < p>3000</p>
+                            <p>1000</p>
+                            <p>2000</p>
+                            < p>3000</p>
                             <p>4000</p>
                             <p>5000</p>
                             </div>
@@ -66,7 +80,7 @@ return(
                 min={1000} 
                 max={5000}
                 step="any"
-                //  value={filterProduct?.pricerange}
+                 value={filterProduct?.pricerange}
                 // value={5000}
                  className="filter-range"
                  onChange={(e)=>
@@ -79,9 +93,12 @@ return(
               
            </div> 
            <hr></hr>
-       <div class="categories">
-           <p>CATEGORIES</p>
+          
+    
+       <p>CATEGORIES</p>
+          <div class="categories">
            {choiceCategory?.map(({ _id, categoryName }) => (
+           
             <label key={_id}>
               <input
                 type="checkbox"
@@ -94,9 +111,13 @@ return(
                   })
                 }
               />
+              <div className="category-name">
               {categoryName}
+              </div>
             </label>
+            
           ))}
+      
        </div>
 <hr></hr>
      {/* <div class="categories">
@@ -121,24 +142,27 @@ return(
 
 
        </div> */}
-       <div>
-         <p>RATINGS</p>   
-         <label>
-           <input type="radio" class="ratings"/>
-           4 Stars & above
-           </label>
-           <label>
-           <input type="radio" class="ratings"/>
-           3 Stars & above
-           </label>
-           <label>
-           <input type="radio" class="ratings"/>
-           2 Stars & above
-           </label>
-           <label>
-           <input type="radio" class="ratings"/>
-           1 Stars & above
-           </label>
+        <p>RATINGS</p>  
+       <div className="ratings">
+       {ratingsArr?.map((rat) => {
+            return (
+              <label key={rat}>
+                <input
+                  type="radio"
+                  name="rating"
+                  value={rat}
+                  checked={Number(filterProduct?.ratings) === Number(rat)}
+                  onChange={(e) =>
+                    dispatchFilter({
+                      type: SORT_BY_RATING,
+                      payload: e.target.value,
+                    })
+                  }
+                />
+                {rat}⭐ and above
+              </label>
+            );
+          })}
       </div>
       
      

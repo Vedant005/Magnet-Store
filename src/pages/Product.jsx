@@ -6,19 +6,24 @@ import { FaHeart } from "react-icons/fa6";
 import {  useWish } from "../contexts/WishlistContext.js";
 import {  useNavigate} from "react-router-dom";
 import { CartContext } from "../contexts/CartContext.js";
+import { useUser } from "../contexts/UserContext.js";
 export default function Product({product}){
    const {addToCart}= useContext(CartContext);
-    // const {singleProduct}= useProduct()
+    const {authState}= useUser();
    
      const {addToWishListHandler}=useWish(); 
    const {
     _id,
     title,
-  
+    ratings,
     price,
    
     img
   } = product
+
+  //  const isItemInCart = (data, id) => {
+  //   return data?.find((item) => item._id === id) ? true : false;
+  // };
   const navigate=useNavigate();
 
     return(
@@ -27,12 +32,8 @@ export default function Product({product}){
             <div className="product-container"
             key={_id}
             >
-                   
-           
-                   {/* <span className="wishlist-icon">
-                        <FaHeart/>
-                    </span> */}
-            
+                      
+                           
                 <div className="card-img"
                  
                  >
@@ -45,28 +46,37 @@ export default function Product({product}){
 
                 </div>
                                 
-            <div>
+            <div className="title-div">
                 <h2>{title}</h2>
+             
+               </div>
+              
+                <div className="price-rating">
+                  <div>
                 <p>
-                  
-
-                    <span className="stirke-through">{price} ||</span>
-                    <span>% OFF</span>
+                <span className="stirke-through">MRP: {price} </span>
+                 
                 </p>
-                {/* {cart.find((item) => item._id === product._id) ? <div className="addToCartBtn" >
-                <button onClick={()=>navigate("/cart")} className="goToCart"><i className="fa fa-shopping-cart" aria-hidden="true"></i> Go to Cart </button>
-            </div> : <div className="addToCartBtn">
-            <button onClick={addtoCart}>Add To Cart</button>
-                         </div>
-                                                } */}
-                  
-                  {/* <div>
-                    <button onClick={addtoCart}>Add to cart</button>
-                  </div>
+                </div>
+                <div>
+                  <p>{ratings}⭐</p>
 
-            */}
+                </div>
 
-            <button onClick={()=>addToCart(product)}>Add to cart</button>
+
+                </div>
+               
+            
+              <div className="cart-btn">
+           <button onClick={()=>{
+            if (authState.isLoggedIn) {
+              
+               addToCart(product)
+              
+            } else {
+              navigate("/login");
+            }
+           }} className="addCart">Cart</button>
             </div>
                </div>
             </div>
