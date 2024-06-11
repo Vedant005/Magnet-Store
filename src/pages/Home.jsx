@@ -1,81 +1,61 @@
-import React from "react";
+import React from 'react';
+import { Header } from '../components/Header';
 
-import { Header } from "../components/Header.jsx";
-import { Footer } from "../components/Footer.jsx";
-
-import "./Home.css"
-import { useData } from "../contexts/dataContext.js";
-import { useProduct } from "../contexts/productContext.js";
-import { useNavigate } from "react-router-dom";
-export default function Home() {
-  const {dispatchFilter}=useData();
-  const {choiceCategory}= useProduct();
-  const navigate = useNavigate();
-
-
+export default function App() {
   return (
-   <div class="main-container">
-    <div className="header-div">
-
- 
-      <Header />
-     </div> 
-   <div className="main-content">
-   <div class="hero-container">
-     <div className="heroimg">
-
-      <div className=" hero-details">
-      <div className="desc">
-       Welcome!
-      
-      
-        <button className="primary" onClick={()=> navigate("/product")}> SHOP NOW</button>
+    <div>
+      <div className='sticky top-0 z-10'>
+        <Header />
+      </div>
+      <div
+        style={{
+          backgroundImage: `url(https://images.unsplash.com/photo-1607384070812-0965d8827f6f?q=80&w=2021&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
+          
+        }}
+        className='w-full h-[600px] bg-cover bg-center flex items-center justify-center'
+      >
+        <div className="text-center bg-black bg-opacity-50 p-6 rounded-lg">
+          <h1 className="text-4xl font-bold mb-4 text-white">Unveiling the New</h1>
+          <p className="text-lg mb-4 text-white">UPTO 80% OFF on various products</p>
+          <button className="bg-green-500 text-white py-2 px-4 rounded-lg">Shop Now</button>
         </div>
       </div>
-
-
-     </div>
- 
-    
-    </div>
-    <div className="category-heading">
-    <h1>Featured Categories</h1>
-    </div>
-     
-     <div class="category-container">
-         
-         <div className="e-category">
-         {choiceCategory?.map(({ _id, categoryName,img  }) => {
-          return(
-            <div key={_id}
-              
-               className="featured-cat-details"
-                onClick={() =>{
-                  dispatchFilter({
-                    type: "FILTER_BY_CATEGORY",
-                    payload: categoryName,
-                  })
-                  navigate("./product")
-                }}
-              >    
-                <div className="featured-card-image">
-                    <img src={img} alt={categoryName} width="100%" height="100%" />
-                  
-                   <div className="featured-card-details">
-                     <p className="featured-card-title">{categoryName}</p>
-                   </div>  
-                  </div>    
-            </div>
-          )})}
-         </div>
-         </div>
-
+      <div className='w-full h-10'></div>
+      <div className='w-full h-10'></div>
+      
+      
+      <div className='text-center'>
+        <h1 className='font-bold underline '>FEATURED PRODUCTS</h1>
+      <div className='flex justify-center'>
+        
+        <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-2  mx-2 my-5'>
+          <div style={{backgroundImage: `url(https://images.unsplash.com/photo-1567763745030-bfe9c51bec27?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+          }} className='min-h-[300px] w-[400px] rounded bg-orange-400 shadow-xl flex items-center justify-center' >
+             
+          </div>
+          <div style={{backgroundImage: `url(https://images.unsplash.com/photo-1567763745030-bfe9c51bec27?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+          }} className='min-h-[300px] w-[100%] rounded bg-orange-400 shadow-xl flex items-center justify-center'>
+            <p>Card 2</p>
+          </div>
+          <div style={{backgroundImage: `url(https://images.unsplash.com/photo-1567763745030-bfe9c51bec27?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+          }} className='min-h-[300px] w-[100%] rounded bg-orange-400 shadow-xl flex items-center justify-center'>
+            <p>Card 3</p>
+          </div>
+          <div style={{backgroundImage: `url(https://images.unsplash.com/photo-1567763745030-bfe9c51bec27?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+          }} className='min-h-[300px] w-[100%] rounded bg-orange-400 shadow-xl flex items-center justify-center'>
+            <p>Card 4</p>
+          </div>
         </div>
-     
-    <div className="footer-section">
-
-    <Footer/>
-    </div>
+      </div>
+      </div>
     </div>
   );
 }
