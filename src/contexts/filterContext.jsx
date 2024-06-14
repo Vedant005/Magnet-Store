@@ -11,19 +11,63 @@ const FilterProvider = ({childern})=>{
     const initialFilter = {
         search:"",
         sortBy:"",
-        pricerange:5000,
-        choiceCategory:[],
+        priceRange:5000,
+        categoryFilter:[],
         searchItem:"",
         ratings:""
     }
 
     const [filterState,filterDispatch]=useReducer(filterReducer,initialFilter);
+ 
+    const searchFilteredProducts = filterState?.search?.length > 0 ? productState?.products.filter(({title})=>
+    title.toLowerCase().includes(filterState?.search.toLowerCase()) 
+    ):productState?.products;
 
+    const priceRangeFilteredProducts = searchFilteredProducts?.filter(
+        ({ price }) => Number(price) <= Number(filterState?.priceRange)
+      );
+    
+      const categoryFilteredProducts =
+        filterState?.categoryFilter?.length > 0
+          ? priceRangeFilteredProducts?.filter(({ categoryName }) =>
+              filterState?.categoryFilter?.includes(categoryName)
+            )
+          : priceRangeFilteredProducts;
+    
+      
+    
+      const ratingFilteredProducts =
+        filterState?.ratings?.length > 0
+          ? categoryFilteredProducts?.filter(
+              ({ ratings: { value } }) =>
+                Number(value) >= Number(filterState?.ratings)
+            )
+          : categoryFilteredProducts;
+    
+      const sortByPriceFilteredProducts =
+        filterState?.sortBy?.length > 0
+          ? (() => {
+              switch (filterState.sortBy) {
+                case "LTH":
+                  return [...ratingFilteredProducts]?.sort(
+                    (product1, product2) => product1.price - product2.price
+                  );
+                case "HTL":
+                  return [...ratingFilteredProducts]?.sort(
+                    (product1, product2) => product2.price - product1.price
+                  );
+                case "RESET":
+                  return ratingFilteredProducts;
+                default:
+                  return ratingFilteredProducts;
+              }
+            })()
+          : ratingFilteredProducts;
 
 
 
     return(
-        <FilterContext.Provider value={{filterState,filterDispatch}}>
+        <FilterContext.Provider value={{filterState,filterDispatch,sortByPriceFilteredProducts}}>
         {childern}
         </FilterContext.Provider>
 
