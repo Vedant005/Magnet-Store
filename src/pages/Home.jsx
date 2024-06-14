@@ -3,7 +3,7 @@ import { Header } from '../components/Header';
 
 export default function App() {
   return (
-    <div>
+    <div className="bg-gray-400">
       <div className='sticky top-0 z-10'>
         <Header />
       </div>
