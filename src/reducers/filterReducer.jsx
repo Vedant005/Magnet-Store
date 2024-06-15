@@ -12,12 +12,12 @@ const filterReducer=(state,action)=>{
             return{...state,pricerange:action.payload}
     
         case FILTER_BY_CATEGORY:
-            const updatedCategory = state.choiceCategory.includes(action.payload)
-            ? state.choiceCategory.filter(
+            const updatedCategory = state.categoryFilter.includes(action.payload)
+            ? state.categoryFilter.filter(
                 (addedCategory) => addedCategory !== action.payload
               )
-            : [...state.choiceCategory, action.payload];
-        return{...state,choiceCategory:updatedCategory}
+            : [...state.categoryFilter, action.payload];
+        return{...state,categoryFilter:updatedCategory}
 
         case SORT_BY_RATING:
             return{...state,ratings:action.payload}
