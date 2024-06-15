@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { BsShop } from "react-icons/bs";
 import { FaRegHeart, FaRegUser } from "react-icons/fa";
 
-export function Header() {
+export default function Header() {
   const navigate = useNavigate();
   
   return (
