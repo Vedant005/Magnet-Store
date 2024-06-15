@@ -56,8 +56,7 @@ const FilterProvider = ({childern})=>{
                   return [...ratingFilteredProducts]?.sort(
                     (product1, product2) => product2.price - product1.price
                   );
-                case "RESET":
-                  return ratingFilteredProducts;
+                
                 default:
                   return ratingFilteredProducts;
               }

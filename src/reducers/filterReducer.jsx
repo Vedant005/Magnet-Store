@@ -28,11 +28,12 @@ const filterReducer=(state,action)=>{
 
          case CLEAR_ALL_FILTERS:
           return {
-                  search: "",
-                  pricerange: 5000,
-                  choiceCategory: [],
-                  ratings: "",
-                  sortBy: "",
+            search:"",
+            sortBy:"",
+            priceRange:5000,
+            categoryFilter:[],
+            searchItem:"",
+            ratings:""
                 };
           
 
