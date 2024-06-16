@@ -5,7 +5,7 @@ import { useContext,createContext,useReducer } from "react";
 
 export const FilterContext = createContext();
 
-const FilterProvider = ({childern})=>{
+const FilterProvider = ({children})=>{
     const{productState}=useContext(ProductContext);
 
     const initialFilter = {
@@ -67,7 +67,7 @@ const FilterProvider = ({childern})=>{
 
     return(
         <FilterContext.Provider value={{filterState,filterDispatch,sortByPriceFilteredProducts}}>
-        {childern}
+        {children}
         </FilterContext.Provider>
 
     )

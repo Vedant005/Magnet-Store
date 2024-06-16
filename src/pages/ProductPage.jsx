@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Header from '../components/Header'
 import Filter from '../components/Filter'
 import ProductCard from '../components/ProductCard'
+import { FilterContext } from '../contexts/filterContext'
 
 function ProductPage() {
+    const {sortByPriceFilteredProducts} =useContext(FilterContext)
+
   return (
     <div className='main'>
 
@@ -17,6 +20,17 @@ function ProductPage() {
 
         </div>
         <div className='product'>
+            {sortByPriceFilteredProducts.length > 0 ? (
+                <div>
+                    {sortByPriceFilteredProducts?.map((products)=>{
+                        return(
+                            <ProductCard product={products}/>
+                        )
+                    })}
+                    </div>
+            ): (
+                <h4>There are no products for selected filters.</h4>
+              )}
             <ProductCard/>
         </div>
     </div>
