@@ -13,7 +13,7 @@ function ProductProvider({children}){
         cart: [],
         wishlist: [],
         categories: [],
-        address: testUserAddress,
+        
       };
 
     const[productState,productDispatch]=useReducer(productReducer,initialState);
@@ -24,8 +24,7 @@ function ProductProvider({children}){
             if(status === 200){
                 productDispatch({type:GET_ALL_PRODUCTS,payload:data.products })
             }
-
-        }catch(error){
+       }catch(error){
            console.error("Get-products error---->  ",error);
         }
     }
@@ -43,7 +42,7 @@ function ProductProvider({children}){
     }
 
     useEffect(()=>{
-        getData();
+        getProducts();
     })
 
 

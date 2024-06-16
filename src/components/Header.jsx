@@ -26,7 +26,7 @@ export default function Header() {
               />
             </label>
             <NavLink
-              to="/product"
+              to="/products"
               className={({ isActive }) =>
                 `p-2 no-underline ${isActive ? 'text-red-500' : 'text-gray-700'}`
               }
