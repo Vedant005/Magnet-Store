@@ -6,7 +6,8 @@ import { ProductContext } from '../contexts/productContext';
 
 function Filter() {
   const {productState} = useContext(ProductContext);
-  const {filterState,filterDispatch}=useReducer(FilterContext);
+  const {filterState,filterDispatch}=useContext(FilterContext);
+ console.log(filterState);
 
   const ratingsArr = [4,3,2,1];
   return (

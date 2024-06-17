@@ -47,7 +47,6 @@ function ProductProvider({children}){
 
     },[])
 
-    console.log(productState);
 
 
 
