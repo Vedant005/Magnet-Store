@@ -48,12 +48,12 @@ function ProductProvider({children}){
     },[])
 
 
-
+   console.log(productState);
 
 
     return(
         
-            <ProductContext.Provider value={{productState,productDispatch,getProducts,getSingleProduct}}>
+            <ProductContext.Provider value={{...productState,productDispatch,getProducts,getSingleProduct}}>
                        {children}
             </ProductContext.Provider>
     

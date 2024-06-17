@@ -6,8 +6,8 @@ import { useContext,createContext,useReducer } from "react";
 export const FilterContext = createContext();
 
 const FilterProvider = ({children})=>{
-    const{productState}=useContext(ProductContext);
-   
+    const{...productState}=useContext(ProductContext);
+    console.log(productState)
 
     const initialFilter = {
         search:"",
@@ -19,13 +19,11 @@ const FilterProvider = ({children})=>{
     }
 
     const [filterState,filterDispatch]=useReducer(filterReducer,initialFilter);
-    console.log(filterState);
 
     const searchFilteredProducts = filterState?.search?.length > 0 ? productState?.products.filter(({title})=>
     title.toLowerCase().includes(filterState?.search.toLowerCase()) 
     ):productState?.products;
 
-    console.log(searchFilteredProducts);
 
     const priceRangeFilteredProducts = searchFilteredProducts?.filter(
         ({ price }) => Number(price) <= Number(filterState?.priceRange)

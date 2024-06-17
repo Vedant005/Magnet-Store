@@ -6,7 +6,6 @@ import { FilterContext } from '../contexts/filterContext'
 
 export default function ProductPage() {
     const {sortByPriceFilteredProducts} =useContext(FilterContext)
-    console.log(sortByPriceFilteredProducts);
   return (
     <div className='main'>
 
