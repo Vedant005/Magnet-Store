@@ -1,4 +1,5 @@
 import React, { useContext, useReducer } from 'react'
+import { SORT_BY_PRICE,SORT_BY_RANGE,FILTER_BY_CATEGORY, SEARCH_PRODUCT ,SORT_BY_RATING ,CLEAR_ALL_FILTERS} from "../variables/variables.js";
 
 import { FilterContext } from '../contexts/filterContext'
 import { ProductContext } from '../contexts/productContext';
@@ -86,7 +87,7 @@ function Filter() {
                key={categoryName}
                checked={filterState?.categoryFilter?.includes(categoryName)}
                onClick={() =>
-                 dispatchFilter({
+                 filterDispatch({
                    type: FILTER_BY_CATEGORY,
                    payload: categoryName,
                  })
@@ -109,9 +110,9 @@ function Filter() {
                   type="radio"
                   name="rating"
                   value={rat}
-                  checked={Number(filterProduct?.ratings) === Number(rat)}
+                  checked={Number(filterState?.ratings) === Number(rat)}
                   onChange={(e) =>
-                    dispatchFilter({
+                    filterDispatch({
                       type: SORT_BY_RATING,
                       payload: e.target.value,
                     })

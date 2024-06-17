@@ -4,9 +4,8 @@ import Filter from '../components/Filter'
 import ProductCard from '../components/ProductCard'
 import { FilterContext } from '../contexts/filterContext'
 
-function ProductPage() {
+export default function ProductPage() {
     const {sortByPriceFilteredProducts} =useContext(FilterContext)
-
   return (
     <div className='main'>
 
@@ -38,4 +37,3 @@ function ProductPage() {
   )
 }
 
-export default ProductPage

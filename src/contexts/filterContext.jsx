@@ -7,6 +7,7 @@ export const FilterContext = createContext();
 
 const FilterProvider = ({children})=>{
     const{productState}=useContext(ProductContext);
+    console.log(productState);
 
     const initialFilter = {
         search:"",

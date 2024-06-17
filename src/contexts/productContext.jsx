@@ -24,6 +24,7 @@ function ProductProvider({children}){
             if(status === 200){
                 productDispatch({type:GET_ALL_PRODUCTS,payload:data.products })
             }
+            console.log(data)
        }catch(error){
            console.error("Get-products error---->  ",error);
         }
@@ -43,23 +44,23 @@ function ProductProvider({children}){
 
     useEffect(()=>{
         getProducts();
-    })
 
+    },[])
 
+    console.log(productState);
 
 
 
 
     return(
-        <div>
-            <ProductContext.Provider value={{...productState,productDispatch,getProducts,getSingleProduct}}>
+        
+            <ProductContext.Provider value={{productState,productDispatch,getProducts,getSingleProduct}}>
                        {children}
             </ProductContext.Provider>
     
-        </div>
+        
     )
 }
 
-const useProduct = () => useContext(ProductContext);
 
-export{ProductProvider,useProduct};
+export{ProductProvider,};
