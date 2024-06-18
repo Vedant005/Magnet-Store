@@ -6,7 +6,9 @@ import { FilterContext } from '../contexts/filterContext'
 
 export default function ProductPage() {
     const {sortByPriceFilteredProducts} =useContext(FilterContext)
-  return (
+
+    console.log('Products in ProductPage:', sortByPriceFilteredProducts); // Check products in the page
+    return (
     <div className='main'>
 
         <div className='Header-component'>
@@ -15,7 +17,7 @@ export default function ProductPage() {
     <div className='flex'>
         <div className='filter'>
 
-            <Filter/>
+            {/* <Filter/> */}
 
         </div>
         <div className='product'>

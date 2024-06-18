@@ -6,7 +6,7 @@ import { useContext,createContext,useReducer } from "react";
 export const FilterContext = createContext();
 
 const FilterProvider = ({children})=>{
-    const{...productState}=useContext(ProductContext);
+    const{productState}=useContext(ProductContext);
     console.log(productState)
 
     const initialFilter = {
@@ -20,7 +20,7 @@ const FilterProvider = ({children})=>{
 
     const [filterState,filterDispatch]=useReducer(filterReducer,initialFilter);
 
-    const searchFilteredProducts = filterState?.search?.length > 0 ? productState?.products.filter(({title})=>
+    const searchFilteredProducts = filterState?.search?.length > 0 ? productState?.products?.filter(({title})=>
     title.toLowerCase().includes(filterState?.search.toLowerCase()) 
     ):productState?.products;
 
@@ -65,7 +65,8 @@ const FilterProvider = ({children})=>{
               }
             })()
           : ratingFilteredProducts;
-
+    
+          console.log(sortByPriceFilteredProducts);
 
 
     return(
