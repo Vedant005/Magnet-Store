@@ -276,5 +276,5 @@ export const products = [
     description:
       "Fond of making Italian cuisine at home but still storing pasta in their wrappers? Say hello to airtight glass jars perfect for keeping all kinds of pasta fresh and ready to cook. The bamboo lid glass jar is durable and made of food-grade materials to ensure every bite is just as safe as it is healthy. In the long term, the reusable glass jar is a more sustainable option. The glass jar has a pear-like curve that makes it a unique addition to any kitchen or table. The jar's simplicity is what gives it its elegance and modern appeal.",
     img: "https://res.cloudinary.com/dflebgpde/image/upload/v1653921745/magnet-store/bowls/M21nsa89299_900x_cgjtyi.jpg",
-  },
+  }
 ];

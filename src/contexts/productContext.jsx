@@ -10,7 +10,7 @@ function ProductProvider({ children }) {
     products: [],
     cart: [],
     wishlist: [],
-    categories: [],
+    categories: []
   };
 
   const [productState, productDispatch] = useReducer(productReducer, initialState);
@@ -28,6 +28,7 @@ function ProductProvider({ children }) {
 
   useEffect(() => {
     getProducts();
+    console.count("useEffect running!")
   }, []);
 
   console.log('ProductState:', productState); // Check if products are being set

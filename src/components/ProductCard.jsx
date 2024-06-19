@@ -1,8 +1,17 @@
 import React from 'react';
 
-function ProductCard({ product }) {
-  console.log(product);
-  const { _id, title, ratings, price, img } = product;
+function ProductCard({ ...product }) {
+ // Log the entire product object to inspect the props being passed
+ console.log('Product:', product);
+
+ // Destructure the product props
+ const { _id, title, ratings, price, img } = product;
+
+ // Conditional rendering to ensure required props are defined
+ if (!_id || !title || !price || !img) {
+   console.error('Missing required product props:', product);
+   return null;
+ }
   return (
     <div className='w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl'>
       <div key={_id}>
