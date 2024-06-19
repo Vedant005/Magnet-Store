@@ -11,16 +11,16 @@ export default function ProductPage() {
 
   return (
     <div className='main'>
-      <div className='Header-component'>
+      <div className='my-16'>
         <Header />
       </div>
-      <div className='flex-row'>
-        <div className='filter'>
-          <Filter/>
+      <div className='flex'>
+        <div className='filter w-1/4 p-4 mx-5'>
+          <Filter />
         </div>
-        <div className='product'>
+        <div className='product w-3/4 p-4'>
           {sortByPriceFilteredProducts.length > 0 ? (
-            <div>
+            <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 '>
               {sortByPriceFilteredProducts?.map((product) => (
                 <ProductCard key={product._id} {...product} />
               ))}

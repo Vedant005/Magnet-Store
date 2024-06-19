@@ -1,26 +1,44 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect ,useState} from 'react'
+import { ProductContext } from '../contexts/productContext'
+import { useParams } from "react-router-dom";
 
-function ProductCard({ _id, title, ratings, price, img }) {
-  // Log the entire product object to inspect the props being passed
-  const navigate = useNavigate();
-  // Construct the product path
-  const productPath = `/products/${_id}`;
+import Header from '../components/Header';
 
-  // Conditional rendering to ensure required props are defined
-  if (!_id || !title || !price || !img) {
-    console.error('Missing required product props:', { _id, title, ratings, price, img });
-    return null;
-  }
-  
-  return (
-    <div className='w-80 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl'>
-      <div key={_id}>
+function SingleProductPage() {
+    
+    const {getsingleProduct}=useContext(ProductContext)
+    
+    const [getsingle,setsingleProduct]= useState({});
+
+  const {productId}= useParams();
+
+  const getProduct=async()=>{
+    try{
+        const product = await getsingleProduct(productId)
        
+        setsingleProduct(product?.product)
+       
+    }
+    catch(e){
+       console.log(e)
+   
+    }
+ }
+
+ useEffect(()=>{
+    getProduct();
+ },[]
+)
+const {_id,title,price,img,ratings}= getsingle;
+
+return (
+    <div className='w-150 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl'>
+      <div key={_id}>
+        
           <div className='Image-div & wishlist icon'>
-            <img className="h-80 w-80 object-cover rounded-t-xl" src={img} alt={title} onClick={() => navigate(`/product/${_id}`)} />
+            <img className="h-80 w-72 object-cover rounded-t-xl" src={img} alt={title} />
           </div>
-          
+       
           <div className='px-4 py-3 w-72'>
             <span className='text-gray-400 mr-3 uppercase text-xs'>Brand</span>
             <p className='text-lg font-bold text-black truncate block capitalize'>{title}</p>
@@ -48,4 +66,4 @@ function ProductCard({ _id, title, ratings, price, img }) {
   );
 }
 
-export default ProductCard;
+export default SingleProductPage

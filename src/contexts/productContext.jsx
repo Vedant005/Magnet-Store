@@ -25,6 +25,17 @@ function ProductProvider({ children }) {
       console.error('Get-products error:', error);
     }
   };
+  const getsingleProduct=async(productId)=>{
+    try {
+        const {status,data} = await axios.get(`/api/products/${productId}`);
+       if(status=== 200){
+        return data;
+       }
+        
+      } catch (e) {
+        console.error(e);
+      }
+}
 
   useEffect(() => {
     getProducts();
@@ -34,7 +45,7 @@ function ProductProvider({ children }) {
   console.log('ProductState:', productState); // Check if products are being set
 
   return (
-    <ProductContext.Provider value={{ productState, productDispatch, getProducts }}>
+    <ProductContext.Provider value={{ productState, productDispatch, getProducts,getsingleProduct }}>
       {children}
     </ProductContext.Provider>
   );
