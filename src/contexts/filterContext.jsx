@@ -7,7 +7,7 @@ export const FilterContext = createContext();
 
 const FilterProvider = ({children})=>{
     const{productState}=useContext(ProductContext);
-    console.log(productState)
+    
 
     const initialFilter = {
         search:"",
@@ -36,15 +36,19 @@ const FilterProvider = ({children})=>{
             )
           : priceRangeFilteredProducts;
     
+      // console.log(filterState?.categoryFilter);
+      // console.log(filterState?.ratings);
       
-    
       const ratingFilteredProducts =
         filterState?.ratings?.length > 0
           ? categoryFilteredProducts?.filter(
-              ({ ratings: { value } }) =>
-                Number(value) >= Number(filterState?.ratings)
+              ( { ratings } ) =>
+                Number(ratings) >= Number(filterState?.ratings)
             )
           : categoryFilteredProducts;
+      
+      // console.log("After====>  ",filterState?.ratings);
+      
 
 
       const sortByPriceFilteredProducts =
@@ -66,9 +70,9 @@ const FilterProvider = ({children})=>{
             })()
           : ratingFilteredProducts;
     
-          console.log(sortByPriceFilteredProducts);
-
-
+         
+      //  console.log(sortByPriceFilteredProducts);
+     
     return(
         <FilterContext.Provider value={{filterState,filterDispatch,sortByPriceFilteredProducts}}>
         {children}

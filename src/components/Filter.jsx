@@ -9,19 +9,20 @@ function Filter() {
   const {filterState,filterDispatch}=useContext(FilterContext);
  
   const ratingsArr = [4,3,2,1];
+  // console.log(filterState)
   return (
      <div className='flex-col'>
        <div className='flex gap-5 my-3 '>
-        <h1>FILTERS</h1>
+        <h1 className='text-md font-semibold'>FILTERS</h1>
         <div className=''>
         <button onClick={()=>
           filterDispatch({type:CLEAR_ALL_FILTERS, payload:""})
-        }>CLEAR</button>
+        }className='text-md font-semibold'>CLEAR</button>
         </div>
       
        </div>
        <div className='my-4'>
-              <h2>SORT</h2>
+              <h2 className='text-md font-semibold'>SORT</h2>
               <label >
                <input type= "radio"
                 id ="lowtohigh"
@@ -51,7 +52,7 @@ function Filter() {
            </label>
 
        </div>
-       <h2>Price Range</h2>
+       <h2 className='text-md font-semibold'>PRICE RANGE</h2>
        <div className='price my-4'>
               
         <div className="flex gap-3">
@@ -65,10 +66,10 @@ function Filter() {
          <div>
                <input 
                type="range"
-                min={1000} 
-                max={5000}
-                step="any"
-                 value={filterState?.priceRange}
+                min="1000"
+                max="5000"
+                step="1000"
+                 value={filterState?.priceRange ||5000}
                 // value={5000}
                  className="filter-range"
                  onChange={(e)=>
@@ -80,12 +81,12 @@ function Filter() {
               </div>
 
        </div>
-       <h2>Categories</h2>
-       <div className='flex-col'>
+       <h2 className='text-md font-semibold'>CATEGORIES</h2>
+       <div className='flex-col my-5'>
 
-       {productState?.categoryFilter?.map(({ _id, categoryName }) => (
+       {productState?.categories?.map(({ _id, categoryName }) => (
            
-           <label key={_id}>
+           <label key={_id} className='flex items-center gap-2'>
              <input
                type="checkbox"
                key={categoryName}
@@ -105,16 +106,17 @@ function Filter() {
          ))}
 
        </div>
-       <div className='ratings'>
+       <h2 className='text-md font-semibold'>RATINGS</h2>
+       <div className='flex flex-col '>
 
-       {ratingsArr?.map((rat) => {
+       {ratingsArr?.map((rating) => {
             return (
-              <label key={rat}>
+              <label key={rating} className='flex items-center gap-2'>
                 <input
                   type="radio"
                   name="rating"
-                  value={rat}
-                  checked={Number(filterState?.ratings) === Number(rat)}
+                  value={rating}
+                  checked={Number(filterState?.ratings) === Number(rating)}
                   onChange={(e) =>
                     filterDispatch({
                       type: SORT_BY_RATING,
@@ -122,7 +124,7 @@ function Filter() {
                     })
                   }
                 />
-                {rat}⭐ and above
+                {rating}⭐ and above
               </label>
             );
           })}

@@ -9,7 +9,7 @@ const filterReducer=(state,action)=>{
 
           
         case SORT_BY_RANGE:
-            return{...state,pricerange:action.payload}
+            return{...state,priceRange:action.payload}
     
         case FILTER_BY_CATEGORY:
             const updatedCategory = state.categoryFilter.includes(action.payload)
