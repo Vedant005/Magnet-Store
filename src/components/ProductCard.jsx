@@ -14,11 +14,11 @@ function ProductCard({ _id, title, ratings, price, img }) {
   }
   
   return (
-    <div className='w-80 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl'>
+    <div className='w-90 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl my-8'>
       <div key={_id}>
        
           <div className='Image-div & wishlist icon'>
-            <img className="h-80 w-80 object-cover rounded-t-xl" src={img} alt={title} onClick={() => navigate(`/product/${_id}`)} />
+            <img className="   rounded-t-xl" src={img} alt={title} onClick={() => navigate(`/products/${_id}`)} />
           </div>
           
           <div className='px-4 py-3 w-72'>

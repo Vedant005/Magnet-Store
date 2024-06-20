@@ -11,14 +11,16 @@ function Filter() {
   const ratingsArr = [4,3,2,1];
   return (
      <div className='flex-col'>
-       <div className='headers & clear'>
+       <div className='flex gap-5 my-3 '>
         <h1>FILTERS</h1>
+        <div className=''>
         <button onClick={()=>
           filterDispatch({type:CLEAR_ALL_FILTERS, payload:""})
         }>CLEAR</button>
-
+        </div>
+      
        </div>
-       <div className='sort'>
+       <div className='my-4'>
               <h2>SORT</h2>
               <label >
                <input type= "radio"
@@ -49,15 +51,16 @@ function Filter() {
            </label>
 
        </div>
-       <div className='price'>
-              <h2>Price Range</h2>
-        <div className="price-range">
+       <h2>Price Range</h2>
+       <div className='price my-4'>
+              
+        <div className="flex gap-3">
                                 
-                            <p>1000</p>
-                            <p>2000</p>
-                            < p>3000</p>
-                            <p>4000</p>
-                            <p>5000</p>
+                            <p>1K</p>
+                            <p>2K</p>
+                            < p>3K</p>
+                            <p>4K</p>
+                            <p>5K</p>
          </div>
          <div>
                <input 
@@ -77,7 +80,8 @@ function Filter() {
               </div>
 
        </div>
-       <div className='categories'>
+       <h2>Categories</h2>
+       <div className='flex-col'>
 
        {productState?.categoryFilter?.map(({ _id, categoryName }) => (
            
