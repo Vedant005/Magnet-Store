@@ -1,7 +1,7 @@
 import { createContext, useContext, useReducer } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import authReducer from "../reducers/authRecuder";
+import authReducer from "../reducers/authReducer";
 export const UserContext = createContext();
 
 function UserProvider({ children }) {
