@@ -20,47 +20,33 @@ function ProductCard(product) {
   }
 
   return (
-    <div className="w-90 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl my-8">
-      <div key={_id} className="items-center">
-        <div className="Image-div & wishlist icon">
+    <div className="w-[24rem] bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl my-8">
+      <div key={_id} className="flex flex-col h-full">
+        <div className="h-56 overflow-hidden">
           <img
-            className="rounded-t-xl"
+            className="w-full h-full object-cover rounded-t-xl cursor-pointer"
             src={img}
             alt={title}
             onClick={() => navigate(`/products/${_id}`)}
           />
         </div>
 
-        <div className="px-4 py-3 w-72">
-          <span className="text-gray-400 mr-3 uppercase text-xs">Brand</span>
-          <p className="text-lg font-bold text-black truncate block capitalize">
+        <div className="p-5 flex flex-col flex-grow">
+          <span className="text-gray-400 text-sm uppercase">Brand</span>
+          <p className="text-xl font-bold text-black truncate capitalize mt-1">
             {title}
           </p>
-          <div className="flex items-center">
-            <p className="text-lg font-semibold text-black cursor-auto my-3">
-              {price}
-            </p>
-            <div className="ml-auto">
-              <button
-                onClick={() => {
-                  addToCart(product);
-                }}
-                className="border border-gray-300 text-gray-700 hover:bg-gray-300 px-4 py-2 rounded-xl"
-              >
-                Add to cart
-              </button>
-            </div>
+          <div className="flex items-center justify-between mt-3">
+            <p className="text-xl font-semibold text-black">{price}</p>
+            <p className="text-sm">{ratings}⭐</p>
           </div>
-          <div className="flex items-center">
-            <del>
-              <p className="text-sm text-gray-600 cursor-auto ml-2">
-                MRP: {price}
-              </p>
-            </del>
-            <div className="ml-auto">
-              <p>{ratings}⭐</p>
-            </div>
-          </div>
+          <del className="text-sm text-gray-600 mt-2">MRP: {price}</del>
+          <button
+            onClick={() => addToCart(product)}
+            className="mt-auto w-full bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-lg transition duration-300"
+          >
+            Add to cart
+          </button>
         </div>
       </div>
     </div>
