@@ -1,9 +1,8 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext } from "react";
 import {
   SORT_BY_PRICE,
   SORT_BY_RANGE,
   FILTER_BY_CATEGORY,
-  SEARCH_PRODUCT,
   SORT_BY_RATING,
   CLEAR_ALL_FILTERS,
 } from "../variables/variables.js";
@@ -11,22 +10,30 @@ import {
 import { FilterContext } from "../contexts/filterContext";
 import { ProductContext } from "../contexts/productContext";
 
-function Filter() {
+function Filter({ isOpen, toggleFilter }) {
   const { productState } = useContext(ProductContext);
   const { filterState, filterDispatch } = useContext(FilterContext);
 
   return (
-    <div className="w-full sm:w-64 bg-gray-100 p-6 rounded-lg shadow-md">
+    <div className="bg-gray-100 p-6 rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-lg font-bold">FILTERS</h1>
-        <button
-          onClick={() =>
-            filterDispatch({ type: CLEAR_ALL_FILTERS, payload: "" })
-          }
-          className="text-sm text-blue-600 hover:text-blue-800 font-semibold"
-        >
-          CLEAR
-        </button>
+        <div className="flex items-center">
+          <button
+            onClick={() =>
+              filterDispatch({ type: CLEAR_ALL_FILTERS, payload: "" })
+            }
+            className="text-sm text-blue-600 hover:text-blue-800 font-semibold mr-4"
+          >
+            CLEAR
+          </button>
+          <button
+            onClick={toggleFilter}
+            className="lg:hidden text-sm text-gray-600 hover:text-gray-800"
+          >
+            Close
+          </button>
+        </div>
       </div>
 
       <section className="mb-6">
