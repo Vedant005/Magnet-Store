@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Header from "../components/Header";
 import Filter from "../components/Filter";
 import ProductCard from "../components/ProductCard";
@@ -6,31 +6,51 @@ import { FilterContext } from "../contexts/filterContext";
 
 export default function ProductPage() {
   const { sortByPriceFilteredProducts } = useContext(FilterContext);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const toggleFilter = () => {
+    setIsFilterOpen(!isFilterOpen);
+  };
 
   return (
-    <div className="main">
-      <div className="mb-8">
-        <Header />
+    <div className="min-h-screen flex flex-col">
+      <Header className="fixed top-0 w-full z-50 bg-white shadow" />
+      <div className="flex-grow pt-16 px-4 lg:flex">
+        <aside className="hidden lg:block sticky top-16 w-1/5 h-[calc(100vh-64px)] overflow-y-auto border-r border-gray-200 pr-4">
+          <Filter />
+        </aside>
+        <main className="w-full lg:w-4/5 lg:ml-4 my-5">
+          {sortByPriceFilteredProducts.length > 0 ? (
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {sortByPriceFilteredProducts.map((product) => (
+                <ProductCard key={product._id} {...product} />
+              ))}
+            </div>
+          ) : (
+            <h4 className="text-center text-xl font-semibold">
+              There are no products for selected filters.
+            </h4>
+          )}
+        </main>
       </div>
-      <div className="flex px-4">
-        <div className="fixed top-20 left-4 w-1/5 h-[calc(100vh-96px)] overflow-y-auto border-r border-gray-200 pr-4">
-          <div className="filter flex justify-center">
-            <Filter />
-          </div>
-        </div>
-        <div className="ml-[23%] w-[77%] border-l border-gray-200 pl-5 my-5">
-          <div className="product">
-            {sortByPriceFilteredProducts.length > 0 ? (
-              <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-                {sortByPriceFilteredProducts?.map((product) => (
-                  <ProductCard key={product._id} {...product} />
-                ))}
-              </div>
-            ) : (
-              <h4>There are no products for selected filters.</h4>
-            )}
-          </div>
-        </div>
+      <button
+        onClick={toggleFilter}
+        className="fixed bottom-4 right-4 lg:hidden bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg"
+      >
+        Filters
+      </button>
+      <div
+        className={`fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden ${
+          isFilterOpen ? "block" : "hidden"
+        }`}
+        onClick={toggleFilter}
+      ></div>
+      <div
+        className={`fixed bottom-0 left-0 right-0 bg-white z-50 transition-transform duration-300 ease-in-out transform lg:hidden ${
+          isFilterOpen ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <Filter isOpen={isFilterOpen} toggleFilter={toggleFilter} />
       </div>
     </div>
   );
