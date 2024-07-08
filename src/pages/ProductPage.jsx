@@ -16,12 +16,12 @@ export default function ProductPage() {
     <div className="min-h-screen flex flex-col">
       <Header className="fixed top-0 w-full z-50 bg-white shadow" />
       <div className="flex-grow pt-16 px-4 lg:flex">
-        <aside className="hidden lg:block sticky top-16 w-1/5 h-[calc(100vh-64px)] overflow-y-auto border-r border-gray-200 pr-4">
+        <aside className="hidden lg:block sticky top-16 w-1/4 h-[calc(100vh-64px)] overflow-y-auto border-r border-gray-200 pr-4">
           <Filter />
         </aside>
-        <main className="w-full lg:w-4/5 lg:ml-4 my-5">
+        <main className="w-full lg:w-3/4 lg:ml-4 my-5">
           {sortByPriceFilteredProducts.length > 0 ? (
-            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {sortByPriceFilteredProducts.map((product) => (
                 <ProductCard key={product._id} {...product} />
               ))}
