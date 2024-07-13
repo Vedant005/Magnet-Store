@@ -8,13 +8,13 @@ import { ProductProvider } from "./contexts/productContext.jsx";
 import FilterProvider from "./contexts/filterContext.jsx";
 import { CartProvider } from "./contexts/cartContext.jsx";
 import { WishlistProvider } from "./contexts/wishlistContext.jsx";
-import { UserProvider } from "./contexts/userContext.jsx";
+import AuthProvider from "./contexts/authContext.jsx";
 
 makeServer();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Router>
-      <UserProvider>
+      <AuthProvider>
         <ProductProvider>
           <FilterProvider>
             <CartProvider>
@@ -24,7 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             </CartProvider>
           </FilterProvider>
         </ProductProvider>
-      </UserProvider>
+      </AuthProvider>
     </Router>
   </React.StrictMode>
 );

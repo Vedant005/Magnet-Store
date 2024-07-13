@@ -98,7 +98,7 @@ const NavIcons = () => (
       <IoMdCart className="text-2xl" />
     </NavLink>
     <NavLink
-      to="/"
+      to="/login"
       className={({ isActive }) =>
         `p-2 rounded-full transition-colors duration-300 ${
           isActive
