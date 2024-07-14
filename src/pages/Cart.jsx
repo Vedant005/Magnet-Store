@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
-import Header from '../components/Header';
-import { CartContext } from '../contexts/cartContext';
-import { NavLink } from 'react-router-dom';
+import React, { useContext } from "react";
+import Header from "../components/Header";
+import { CartContext } from "../contexts/cartContext";
+import { NavLink } from "react-router-dom";
 
 function Cart() {
   const {
@@ -16,33 +16,36 @@ function Cart() {
   return (
     <div className="min-h-screen bg-gray-100">
       <Header />
-      <div className="flex justify-between px-8 py-6 mt-20"> {/* Adjusted margin-top for spacing */}
+      <div className="flex flex-col md:flex-row justify-between px-4 md:px-8 py-6 mt-20">
         {cart.length === 0 ? (
           <div className="w-full text-center">
             <p>There is nothing in here</p>
           </div>
         ) : (
           <>
-            <div className="w-2/3">
+            <div className="w-full md:w-2/3 mb-6 md:mb-0">
               {cart.map((item) => {
                 const { _id, title, price, ratings, img, quantity } = item;
 
                 return (
                   <div
                     key={_id}
-                    className="flex bg-white p-4 shadow-md rounded-lg mb-4"
+                    className="flex flex-col sm:flex-row bg-white p-4 shadow-md rounded-lg mb-4"
                   >
-                    <NavLink to={`/product/${_id}`}>
-                      <div className="w-1/4">
+                    <NavLink
+                      to={`/product/${_id}`}
+                      className="w-full sm:w-1/4 mb-4 sm:mb-0"
+                    >
+                      <div className="aspect-w-1 aspect-h-1">
                         <img
-                          className="w-full h-auto object-cover rounded"
+                          className="w-full h-full object-cover rounded"
                           src={img}
                           alt={title}
                         />
                       </div>
                     </NavLink>
 
-                    <div className="w-3/4 pl-4">
+                    <div className="w-full sm:w-3/4 sm:pl-4">
                       <h1 className="text-xl font-semibold">{title}</h1>
                       <p>Rating: {ratings}</p>
                       <p>Price: ₹{price}</p>
@@ -75,8 +78,8 @@ function Cart() {
                 );
               })}
             </div>
-            <div className="w-1/3 pl-4">
-              <div className="bg-white p-4 shadow-md rounded-lg sticky top-4">
+            <div className="w-full md:w-1/3 md:pl-4">
+              <div className="bg-white p-4 shadow-md rounded-lg md:sticky md:top-4">
                 <h2 className="text-xl font-semibold mb-4">Cart Summary</h2>
                 <div className="flex justify-between mb-2">
                   <p>Price ({totalItems} items)</p>
