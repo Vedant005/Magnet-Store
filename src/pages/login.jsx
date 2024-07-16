@@ -13,8 +13,8 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const guestUserData = {
-    email: "sudiptachakroborty20@gmail.com",
-    password: "sudiptacha",
+    email: "adarshbalika@gmail.com",
+    password: "adarshbalika",
   };
 
   const loginHandler = (e) => {

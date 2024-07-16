@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Header from "../components/Header";
 
 export default function Signup() {
-  const { signup } = useContext(AuthContext);
+  const { userSignup } = useContext(AuthContext);
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({
     firstName: "",
@@ -29,7 +29,7 @@ export default function Signup() {
       agreeToTerms
     ) {
       if (userDetails.password === userDetails.confirmPassword) {
-        signup(userDetails);
+        userSignup(userDetails);
       } else {
         // Show error for password mismatch
         alert("Passwords do not match");
