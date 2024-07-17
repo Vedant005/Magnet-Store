@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../contexts/authContext";
 import { NavLink } from "react-router-dom";
 import { IoMdCart } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +11,7 @@ export default function Header() {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const { authState } = useContext(AuthContext);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
@@ -97,8 +99,10 @@ const NavIcons = () => (
     >
       <IoMdCart className="text-2xl" />
     </NavLink>
+
     <NavLink
-      to="/login"
+      style={getStyle}
+      to={authState?.isLoggedIn ? "/userDetails" : "/login"}
       className={({ isActive }) =>
         `p-2 rounded-full transition-colors duration-300 ${
           isActive
