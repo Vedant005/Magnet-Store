@@ -20,7 +20,7 @@ export default function App() {
           <p className="text-lg mb-4 text-white">
             UPTO 80% OFF on various products
           </p>
-          <button className="bg-green-500 text-white py-2 px-4 rounded-lg">
+          <button className="bg-green-500 text-white py-6 px-9 rounded-lg">
             Shop Now
           </button>
         </div>
@@ -31,7 +31,7 @@ export default function App() {
       <div className="text-center">
         <h1 className="font-bold underline ">FEATURED PRODUCTS</h1>
         <div className="flex justify-center">
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2  mx-2 my-5">
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-5  mx-2 my-5">
             <div
               style={{
                 backgroundImage: `url(https://images.unsplash.com/photo-1567763745030-bfe9c51bec27?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
