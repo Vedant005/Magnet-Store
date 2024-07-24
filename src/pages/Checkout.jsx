@@ -1,169 +1,132 @@
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useState } from "react";
 import { CartContext } from "../contexts/cartContext";
 import Header from "../components/Header";
 export default function Checkout() {
   const { cart, totalItems, totalPrice } = useContext(CartContext);
-  const dummyAddress = [
+  const [addresses, setAddresses] = useState([
     {
-      id: 1,
-      userName: "Vedant Kanekar",
-      houseNumber: "53,Stark Heights, Andromeda Galaxy , Binary system",
-      city: " Mumbai",
+      name: "Krushna Kulkarni",
+      street: "Ganesh Nagar, Paud Road",
+      city: "Pune",
       state: "Maharashtra",
-      country: "India",
-      pincode: 4000292,
-      mobileNumber: 243490110,
+      pin: "411057",
+      phone: "1256394870",
     },
-  ];
-  const [getAddress, setAddress] = useState(dummyAddress);
-  const navigate = useNavigate();
+    {
+      name: "Adarsh Balika",
+      street: "Tirupati Colony, Pangri Road",
+      city: "Beed",
+      state: "Maharashtra",
+      pin: "431122",
+      phone: "9420101718",
+    },
+  ]);
+  const [selectedAddress, setSelectedAddress] = useState(1);
+  const [showNewAddressForm, setShowNewAddressForm] = useState(false);
+  const [newAddress, setNewAddress] = useState({
+    name: "",
+    street: "",
+    city: "",
+    state: "",
+    pin: "",
+    phone: "",
+  });
+
+  const handleAddNewAddress = () => {
+    setAddresses([...addresses, newAddress]);
+    setShowNewAddressForm(false);
+    setNewAddress({
+      name: "",
+      street: "",
+      city: "",
+      state: "",
+      pin: "",
+      phone: "",
+    });
+  };
+
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen">
       <Header />
-      <h1> CHECKOUT </h1>
-      <div className="checkout-container">
-        <div className="checkout-box">
-          <h2> Order details</h2>
-          <div className="order-details">
-            <hr />
-            <div className="items-qty">
-              <div className="item-key-name">
-                <p>Items</p>
-                <p>Qty</p>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8">Checkout</h1>
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">Order Details</h2>
+            {cart.map((item) => (
+              <div key={item._id} className="mb-2">
+                <p>
+                  {item.title} x {item.quantity}
+                </p>
               </div>
-            </div>
-            <div className="cart-value">
-              {cart?.map(({ _id, title, quantity }) => (
-                <div key={_id} className="item-key-value">
-                  <p>{title}</p>
-                  <p>{quantity}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <hr />
-
-          <h2>Price details</h2>
-          <hr />
-
-          <div className="price-details">
-            <div className="price-key">
-              <p>Price ({totalItems} items) </p>
-              <p>Delivery charges </p>
-              <p> Shipping charges</p>
-            </div>
-            <div className="price-values">
-              <p> {totalPrice}</p>
-              <p> Free </p>
-              <p> Free </p>
+            ))}
+            <div className="mt-4 border-t pt-4">
+              <p>Price: (3 items) ₹{totalPrice}</p>
+              <p>Discount ₹1800</p>
+              <p>Delivery Charges Free</p>
+              <p>Coupon Discount ₹0</p>
+              <p className="font-bold mt-2">
+                Total Amount ₹{totalPrice - 1800}
+              </p>
+              <p className="text-green-600 mt-2">
+                You will save ₹1800 on this order
+              </p>
             </div>
           </div>
-
-          <hr />
-          <div className="total-price">
-            <div className="total">
-              <h3> Total Price</h3>
-            </div>
-            <div className="total-value">
-              <p>{totalPrice}</p>
-            </div>
-          </div>
-          <hr />
-
-          <h3> Deliver to</h3>
-          <div className="delivery-details">
-            {getAddress.map(
-              ({
-                id,
-                userName,
-                houseNumber,
-                city,
-                state,
-                country,
-                pincode,
-                mobileNumber,
-              }) => {
-                return (
-                  <div className="delivery-address">
-                    <strong>{userName}</strong>
+          <div className="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">Select Address:</h2>
+            {addresses.map((address, index) => (
+              <div key={index} className="mb-4">
+                <label className="flex items-center space-x-3">
+                  <input
+                    type="radio"
+                    className="form-radio"
+                    checked={selectedAddress === index}
+                    onChange={() => setSelectedAddress(index)}
+                  />
+                  <span className="text-gray-700">
+                    <p className="font-medium">{address.name}</p>
+                    <p>{address.street}</p>
                     <p>
-                      {houseNumber}, {city}, {state}
+                      {address.city}, {address.state}
                     </p>
-                    <p>
-                      Pincode: {pincode}, {country}
-                    </p>
-                    <p>Phone Number: {mobileNumber}</p>
-                  </div>
-                );
-              }
-            )}
-          </div>
-
-          <div className="checkout-btn">
+                    <p>Pin: {address.pin}</p>
+                    <p>Phone: {address.phone}</p>
+                  </span>
+                </label>
+              </div>
+            ))}
             <button
-              className="checkout-btn"
-              onClick={() => {
-                return (
-                  <div>
-                    <dialog open>
-                      <p>Order received!!</p>
-                      <form method="dialog">
-                        <button onClick={() => navigate("/")}>Exit</button>
-                      </form>
-                    </dialog>
-                  </div>
-                );
-              }}
+              onClick={() => setShowNewAddressForm(true)}
+              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
-              CHECKOUT
+              + Add New Address
             </button>
-          </div>
-        </div>
-
-        <div className="address-box">
-          <h1> Select address</h1>
-          <div className="addres-details">
-            {dummyAddress.map(
-              ({
-                id: addresId,
-                userName,
-                houseNumber,
-                city,
-                state,
-                country,
-                pincode,
-                mobileNumber,
-              }) => {
-                return (
-                  <div>
-                    <label>
-                      <input
-                        type="radio"
-                        name="address-radio"
-                        checked={getAddress.id === addresId}
-                        onChange={(e) => {
-                          setAddress(
-                            dummyAddress.find(({ id }) => id === addresId)
-                          );
-                        }}
-                      />
-                      <strong>{userName}</strong>
-                      <p>
-                        {houseNumber}, {city}, {state}
-                      </p>
-                      <p>
-                        Pincode: {pincode}, {country}
-                      </p>
-                      <p>Phone Number: {mobileNumber}</p>
-                    </label>
-                  </div>
-                );
-              }
+            {showNewAddressForm && (
+              <div className="mt-4 space-y-4">
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={newAddress.name}
+                  onChange={(e) =>
+                    setNewAddress({ ...newAddress, name: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border rounded"
+                />
+                {/* Add more input fields for other address details */}
+                <button
+                  onClick={handleAddNewAddress}
+                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                >
+                  Add Address
+                </button>
+              </div>
             )}
           </div>
         </div>
+        <button className="mt-8 bg-green-500 text-white px-8 py-3 rounded-lg hover:bg-green-600 mx-auto block">
+          Place Order
+        </button>
       </div>
     </div>
   );
