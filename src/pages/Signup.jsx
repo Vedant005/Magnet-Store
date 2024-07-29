@@ -178,7 +178,7 @@ export default function Signup() {
               onChange={() => setAgreeToTerms(!agreeToTerms)}
               className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
             />
-            <label
+            {/* <label
               htmlFor="agree-terms"
               className="ml-2 block text-sm text-gray-700"
             >
@@ -186,7 +186,7 @@ export default function Signup() {
               <a href="#" className="text-blue-600 hover:underline">
                 Terms and Conditions
               </a>
-            </label>
+            </label> */}
           </div>
 
           <button
