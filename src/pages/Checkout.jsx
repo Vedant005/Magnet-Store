@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { CartContext } from "../contexts/cartContext";
 import Header from "../components/Header";
 export default function Checkout() {
-  const { cart, totalItems, totalPrice } = useContext(CartContext);
+  const { cart, totalPrice } = useContext(CartContext);
   const [addresses, setAddresses] = useState([
     {
       name: "Krushna Kulkarni",

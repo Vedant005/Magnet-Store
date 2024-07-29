@@ -15,15 +15,17 @@ export const users = [
     password: "adarshbalika",
     createdAt: formatDate(),
     updatedAt: formatDate(),
-    addresses:[{
-      id: uuid(),
-      firstName: "Krushna",
-      lastName: "Kulkarni",
-      street: "Ganesh Nagar, Paud Road",
-      district: "Pune",
-      state: "Maharashtra",
-      pinCode: "411057",
-      phone: "1256394870"
-  }]
+    addresses: [
+      {
+        id: uuid(),
+        firstName: "Krushna",
+        lastName: "Kulkarni",
+        street: "Ganesh Nagar, Paud Road",
+        district: "Pune",
+        state: "Maharashtra",
+        pinCode: "411057",
+        phone: "1256394870",
+      },
+    ],
   },
 ];
