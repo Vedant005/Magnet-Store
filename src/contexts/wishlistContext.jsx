@@ -5,9 +5,13 @@ export const WishlistProvider = ({ children }) => {
   const [wishList, setWishList] = useState([]);
 
   const addToWishListHandler = (product) => {
-    wishList.find((item) => item._id === product._id)
-      ? setWishList([...wishList].filter((item) => item._id !== product._id))
-      : setWishList([...wishList, product]);
+    setWishList((prevWishList) => {
+      if (prevWishList.some((item) => item._id === product._id)) {
+        return prevWishList.filter((item) => item._id !== product._id);
+      } else {
+        return [...prevWishList, product];
+      }
+    });
   };
 
   return (
