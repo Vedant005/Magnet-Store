@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Header from "../components/Header";
 import { CartContext } from "../contexts/cartContext";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Cart() {
   const {
@@ -12,7 +12,7 @@ function Cart() {
     removeFromCart,
     totalPrice,
   } = useContext(CartContext);
-
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gray-100">
       <Header />
@@ -123,7 +123,10 @@ function Cart() {
                     <p>Total Amount</p>
                     <p>₹{totalPrice}</p>
                   </div>
-                  <button className="w-full bg-blue-500 text-white px-4 py-2 rounded mt-4">
+                  <button
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded mt-4"
+                    onClick={() => navigate("/checkout")}
+                  >
                     Checkout
                   </button>
                 </div>

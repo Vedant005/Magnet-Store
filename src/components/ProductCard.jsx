@@ -1,9 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../contexts/cartContext";
+import { WishlistContext } from "../contexts/wishlistContext";
 
 function ProductCard(product) {
   const { addToCart, cart } = useContext(CartContext);
+  const { addToWishListHandler, wishList } = useContext(WishlistContext);
   const { _id, title, ratings, price, img } = product;
   const [isInCart, setIsInCart] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -13,6 +15,10 @@ function ProductCard(product) {
   useEffect(() => {
     setIsInCart(cart.some((item) => item._id === _id));
   }, [cart, _id]);
+
+  useEffect(() => {
+    setIsWishlisted(wishList.some((item) => item._id === _id));
+  }, [wishList, _id]);
 
   if (!_id || !title || !price || !img) {
     console.error("Missing required product props:", {
@@ -35,8 +41,7 @@ function ProductCard(product) {
 
   const toggleWishlist = (e) => {
     e.stopPropagation(); // Prevent image click event from firing
-    setIsWishlisted(!isWishlisted);
-    // Here you would typically also update your wishlist in a global state or backend
+    addToWishListHandler(product);
   };
 
   return (
