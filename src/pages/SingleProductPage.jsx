@@ -1,11 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../contexts/productContext";
+import { useNavigate } from "react-router-dom";
+
+import { CartContext } from "../contexts/cartContext";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 
 function SingleProductPage() {
   const { getsingleProduct } = useContext(ProductContext);
+  const { addToCart, cart } = useContext(CartContext);
+  const navigate = useNavigate();
+
   const [getsingle, setsingleProduct] = useState({});
+  const [isInCart, setIsInCart] = useState(false);
+
   const { productId } = useParams();
 
   useEffect(() => {
@@ -23,9 +31,12 @@ function SingleProductPage() {
 
   const { _id, title, price, img, ratings, description } = getsingle;
 
-  const handleAddToCart = () => {
-    // Implement add to cart functionality here
-    console.log("Added to cart:", title);
+  const handleButtonClick = () => {
+    if (isInCart) {
+      navigate("/cart");
+    } else {
+      addToCart(product);
+    }
   };
 
   return (
@@ -50,11 +61,11 @@ function SingleProductPage() {
               </h1>
               <div className="flex items-center my-3">
                 <p className="text-2xl font-semibold text-black">${price}</p>
-                <del>
+                {/* <del>
                   <p className="text-lg text-gray-600 ml-2">
                     MRP: ${(price * 1.2).toFixed(2)}
                   </p>
-                </del>
+                </del> */}
               </div>
               <div className="flex items-center mb-4">
                 <p className="text-lg mr-2">{ratings}⭐</p>
@@ -66,10 +77,14 @@ function SingleProductPage() {
                 {description || "No description available."}
               </p>
               <button
-                onClick={handleAddToCart}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full transition duration-300 ease-in-out transform hover:scale-105"
+                onClick={handleButtonClick}
+                className={`mt-auto w-full text-white px-3 py-2 rounded-lg transition duration-300 text-sm ${
+                  isInCart
+                    ? "bg-green-600 hover:bg-green-700"
+                    : "bg-blue-600 hover:bg-blue-700"
+                }`}
               >
-                Add to Cart
+                {isInCart ? "GO TO CART" : "Add to cart"}
               </button>
             </div>
           </div>
