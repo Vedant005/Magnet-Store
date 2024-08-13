@@ -1,10 +1,36 @@
+import React, { useContext } from "react";
 import Header from "../components/Header";
 import { WishlistContext } from "../contexts/wishlistContext";
-import { useContext } from "react";
+import { CartContext } from "../contexts/cartContext";
+import { useNavigate } from "react-router-dom";
 import { FaHeart, FaStar } from "react-icons/fa";
+import Lottie from "react-lottie";
+import animationData from "../animations/empty-wishlist.json"; // Lottie animation file
 
 export default function Wishlist() {
-  const { wishList } = useContext(WishlistContext);
+  const { wishList, addToWishListHandler } = useContext(WishlistContext);
+  const { addToCart, cart } = useContext(CartContext);
+  const navigate = useNavigate();
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    navigate("/cart");
+  };
+
+  const toggleWishlist = (product, e) => {
+    e.stopPropagation(); // Prevent the event from triggering other handlers
+    addToWishListHandler(product);
+  };
+
+  // Lottie animation options
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -15,12 +41,26 @@ export default function Wishlist() {
         </h1>
         {wishList.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-gray-600 text-lg">Your wishlist is empty</p>
+            <div className="w-64 h-64 mx-auto">
+              <Lottie options={defaultOptions} height={256} width={256} />
+            </div>
+            <p className="text-gray-600 text-lg mt-4 animate-fadeIn">
+              Your wishlist is currently empty. Start adding items to build your
+              dream collection!
+            </p>
+            <button
+              onClick={() => navigate("/products")}
+              className="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 animate-bounce"
+            >
+              Explore Products
+            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {wishList.map((item) => {
-              const { _id, title, price, ratings, image } = item;
+              const { _id, title, price, ratings, img } = item;
+              const isInCart = cart.some((cartItem) => cartItem._id === _id);
+
               return (
                 <div
                   key={_id}
@@ -28,16 +68,20 @@ export default function Wishlist() {
                 >
                   <div className="relative">
                     <img
-                      src={image}
+                      src={img}
                       alt={title}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-48 object-cover cursor-pointer"
+                      onClick={() => navigate(`/products/${_id}`)}
                     />
-                    <button className="absolute top-2 right-2 text-red-500">
-                      <FaHeart size={24} />
+                    <button
+                      onClick={(e) => toggleWishlist(item, e)}
+                      className="absolute top-2 right-2 text-red-500"
+                    >
+                      <FaHeart size={24} fill="red" />
                     </button>
                   </div>
                   <div className="p-4">
-                    <p className="text-sm text-gray-500 uppercase">BRAND</p>
+                    <p className="text-sm text-gray-500 uppercase">Brand</p>
                     <h2 className="text-lg font-semibold text-gray-800 mb-2">
                       {title}
                     </h2>
@@ -59,8 +103,15 @@ export default function Wishlist() {
                         />
                       ))}
                     </div>
-                    <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">
-                      Add to cart
+                    <button
+                      onClick={() => handleAddToCart(item)}
+                      className={`w-full text-white font-bold py-2 px-4 rounded transition duration-300 ${
+                        isInCart
+                          ? "bg-green-600 hover:bg-green-700"
+                          : "bg-blue-500 hover:bg-blue-600"
+                      }`}
+                    >
+                      {isInCart ? "GO TO CART" : "Add to cart"}
                     </button>
                   </div>
                 </div>
