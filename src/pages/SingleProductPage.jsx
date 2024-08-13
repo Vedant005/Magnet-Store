@@ -31,11 +31,15 @@ function SingleProductPage() {
 
   const { _id, title, price, img, ratings, description } = getsingle;
 
+  useEffect(() => {
+    setIsInCart(cart.some((item) => item._id === _id));
+  }, [cart, _id]);
+
   const handleButtonClick = () => {
     if (isInCart) {
       navigate("/cart");
     } else {
-      addToCart(product);
+      addToCart(getsingle);
     }
   };
 
