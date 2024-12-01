@@ -9,6 +9,7 @@ import Checkout from "./pages/Checkout";
 import Login from "./pages/login";
 import Signup from "./pages/Signup";
 import { UserDetails } from "./pages/userDetails";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -21,7 +22,14 @@ function App() {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/userDetails" element={<UserDetails />} />
+        <Route
+          path="/userDetails"
+          element={
+            <ProtectedRoute>
+              <UserDetails />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/signup" element={<Signup />} />
       </Routes>
     </>
