@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { CartContext } from "../contexts/cartContext";
 import Header from "../components/Header";
+import { useNavigate } from "react-router-dom";
 export default function Checkout() {
   const { cart, totalPrice } = useContext(CartContext);
   const [addresses, setAddresses] = useState([
@@ -45,6 +46,13 @@ export default function Checkout() {
     });
   };
 
+  const navigate = useNavigate();
+
+  const orderPlaced = () => {
+    alert("Order Placed!!");
+    navigate("/");
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <Header />
@@ -61,7 +69,7 @@ export default function Checkout() {
               </div>
             ))}
             <div className="mt-4 border-t pt-4">
-              <p>Price: (3 items) ₹{totalPrice}</p>
+              <p>Price: ₹{totalPrice}</p>
               <p>Discount ₹1800</p>
               <p>Delivery Charges Free</p>
               <p>Coupon Discount ₹0</p>
@@ -106,13 +114,60 @@ export default function Checkout() {
               <div className="mt-4 space-y-4">
                 <input
                   type="text"
-                  placeholder="Name"
+                  placeholder="Society"
                   value={newAddress.name}
                   onChange={(e) =>
                     setNewAddress({ ...newAddress, name: e.target.value })
                   }
                   className="w-full px-3 py-2 border rounded"
                 />
+
+                <input
+                  type="text"
+                  placeholder="Street"
+                  value={newAddress.street}
+                  onChange={(e) =>
+                    setNewAddress({ ...newAddress, street: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border rounded"
+                />
+                <input
+                  type="text"
+                  placeholder="City"
+                  value={newAddress.city}
+                  onChange={(e) =>
+                    setNewAddress({ ...newAddress, city: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border rounded"
+                />
+                <input
+                  type="text"
+                  placeholder="State"
+                  value={newAddress.state}
+                  onChange={(e) =>
+                    setNewAddress({ ...newAddress, state: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border rounded"
+                />
+                <input
+                  type="text"
+                  placeholder="Pin Code"
+                  value={newAddress.pin}
+                  onChange={(e) =>
+                    setNewAddress({ ...newAddress, pin: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border rounded"
+                />
+                <input
+                  type="text"
+                  placeholder="Phone"
+                  value={newAddress.phone}
+                  onChange={(e) =>
+                    setNewAddress({ ...newAddress, phone: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border rounded"
+                />
+
                 {/* Add more input fields for other address details */}
                 <button
                   onClick={handleAddNewAddress}
@@ -124,7 +179,10 @@ export default function Checkout() {
             )}
           </div>
         </div>
-        <button className="mt-8 bg-green-500 text-white px-8 py-3 rounded-lg hover:bg-green-600 mx-auto block">
+        <button
+          className="mt-8 bg-green-500 text-white px-8 py-3 rounded-lg hover:bg-green-600 mx-auto block"
+          onClick={orderPlaced}
+        >
           Place Order
         </button>
       </div>

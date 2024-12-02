@@ -1,212 +1,129 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { useAuth } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts/authContext";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Header from "../components/Header";
 
-export default function Signup() {
-  const { userSignup } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const [userDetails, setUserDetails] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
+const SignUp = () => {
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const signupHandler = (e) => {
+  const { signup } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    if (
-      userDetails.firstName.trim() &&
-      userDetails.lastName.trim() &&
-      userDetails.email.trim() &&
-      userDetails.password.trim() &&
-      userDetails.confirmPassword.trim() &&
-      agreeToTerms
-    ) {
-      if (userDetails.password === userDetails.confirmPassword) {
-        userSignup(userDetails);
-      } else {
-        // Show error for password mismatch
-        alert("Passwords do not match");
-      }
-    } else {
-      // Show error for empty fields or not agreeing to terms
-      alert("Please fill all fields and agree to the terms and conditions");
+    try {
+      signup(firstname, lastname, email, password);
+      setError("");
+      navigate("/login");
+    } catch (err) {
+      setError(err.message);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300 p-4">
-      <Header />
-      <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg transform transition-all hover:scale-105 duration-300 w-full max-w-md">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-6">
-          Create Account
-        </h2>
-        <form className="space-y-4" onSubmit={signupHandler}>
-          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <div className="flex-1">
-              <label
-                htmlFor="first-name"
-                className="text-gray-700 font-semibold block mb-2"
-              >
-                First Name
-              </label>
-              <input
-                id="first-name"
-                placeholder="John"
-                required
-                value={userDetails.firstName}
-                onChange={(e) =>
-                  setUserDetails({ ...userDetails, firstName: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div className="flex-1">
-              <label
-                htmlFor="last-name"
-                className="text-gray-700 font-semibold block mb-2"
-              >
-                Last Name
-              </label>
-              <input
-                id="last-name"
-                placeholder="Doe"
-                required
-                value={userDetails.lastName}
-                onChange={(e) =>
-                  setUserDetails({ ...userDetails, lastName: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+    <div>
+      <Header className="fixed top-0 w-full z-50 bg-white shadow" />
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <form
+          onSubmit={handleSignUp}
+          className="w-full max-w-sm p-6 bg-white rounded shadow-md"
+        >
+          <h2 className="mb-4 text-2xl font-bold text-center text-gray-800">
+            Sign Up
+          </h2>
+          {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
+          <div className="mb-4">
+            <label
+              htmlFor="firstname"
+              className="block mb-1 text-sm font-semibold text-gray-600"
+            >
+              First Name
+            </label>
+            <input
+              type="text"
+              id="firstname"
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
+              className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+              placeholder="Enter your first name"
+              required
+            />
           </div>
-
-          <div>
+          <div className="mb-4">
+            <label
+              htmlFor="lastname"
+              className="block mb-1 text-sm font-semibold text-gray-600"
+            >
+              Last Name
+            </label>
+            <input
+              type="text"
+              id="lastname"
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
+              className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+              placeholder="Enter your last name"
+              required
+            />
+          </div>
+          <div className="mb-4">
             <label
               htmlFor="email"
-              className="text-gray-700 font-semibold block mb-2"
+              className="block mb-1 text-sm font-semibold text-gray-600"
             >
               Email
             </label>
             <input
-              id="email"
               type="email"
-              placeholder="you@example.com"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+              placeholder="Enter your email"
               required
-              value={userDetails.email}
-              onChange={(e) =>
-                setUserDetails({ ...userDetails, email: e.target.value })
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          <div>
+          <div className="mb-4">
             <label
               htmlFor="password"
-              className="text-gray-700 font-semibold block mb-2"
+              className="block mb-1 text-sm font-semibold text-gray-600"
             >
               Password
             </label>
-            <div className="relative">
-              <input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter password"
-                required
-                minLength="4"
-                maxLength="20"
-                value={userDetails.password}
-                onChange={(e) =>
-                  setUserDetails({ ...userDetails, password: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="confirm-password"
-              className="text-gray-700 font-semibold block mb-2"
-            >
-              Confirm Password
-            </label>
-            <div className="relative">
-              <input
-                id="confirm-password"
-                type={showConfirmPassword ? "text" : "password"}
-                placeholder="Confirm password"
-                required
-                value={userDetails.confirmPassword}
-                onChange={(e) =>
-                  setUserDetails({
-                    ...userDetails,
-                    confirmPassword: e.target.value,
-                  })
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-              >
-                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
-            </div>
-          </div>
-
-          <div className="flex items-center">
             <input
-              id="agree-terms"
-              type="checkbox"
-              checked={agreeToTerms}
-              onChange={() => setAgreeToTerms(!agreeToTerms)}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+              placeholder="Enter your password"
+              required
             />
-            {/* <label
-              htmlFor="agree-terms"
-              className="ml-2 block text-sm text-gray-700"
-            >
-              I agree to the{" "}
-              <a href="#" className="text-blue-600 hover:underline">
-                Terms and Conditions
-              </a>
-            </label> */}
           </div>
-
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold transition-colors duration-300 hover:bg-blue-700"
+            className="w-full px-3 py-2 text-white bg-green-600 rounded hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-200"
           >
             Sign Up
           </button>
+          <p className="mt-4 text-sm text-center text-gray-600">
+            Already have an account?{" "}
+            <button
+              type="button"
+              onClick={() => navigate("/login")}
+              className="text-blue-600 hover:underline"
+            >
+              Log in
+            </button>
+          </p>
         </form>
-
-        <p className="text-center mt-6 text-gray-600">
-          Already have an account?{" "}
-          <span
-            onClick={() => navigate("/login")}
-            className="text-blue-600 font-semibold cursor-pointer hover:underline"
-          >
-            Log In
-          </span>
-        </p>
       </div>
     </div>
   );
-}
+};
+
+export default SignUp;

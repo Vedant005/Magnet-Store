@@ -6,6 +6,7 @@ import { FilterContext } from "../contexts/filterContext";
 
 export default function ProductPage() {
   const { sortByPriceFilteredProducts } = useContext(FilterContext);
+  console.log(sortByPriceFilteredProducts);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const toggleFilter = () => {

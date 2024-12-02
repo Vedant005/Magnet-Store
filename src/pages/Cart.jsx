@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import { CartContext } from "../contexts/cartContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
-import emptyCartAnimation from "../animations/empty-cart.json"; // Import your Lottie JSON file
+import emptyCartAnimation from "../animations/empty-cart.json";
 
 function Cart() {
   const {
@@ -20,7 +20,7 @@ function Cart() {
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: emptyCartAnimation, // Your Lottie JSON file
+    animationData: emptyCartAnimation, //  Lottie JSON file
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },

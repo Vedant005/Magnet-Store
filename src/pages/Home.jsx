@@ -1,7 +1,9 @@
 import React from "react";
 import Header from "../components/Header";
+import { useNavigate } from "react-router-dom";
 
 export default function App() {
+  const navigate = useNavigate();
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="sticky top-0 z-10">
@@ -20,7 +22,10 @@ export default function App() {
           <p className="text-xl mb-6 text-gray-200">
             UP TO 80% OFF on various products
           </p>
-          <button className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-10 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+          <button
+            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-10 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+            onClick={() => navigate("/products")}
+          >
             Shop Now
           </button>
         </div>
