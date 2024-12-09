@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { AuthContext, useAuth } from "../contexts/authContext";
+import React, { useState } from "react";
+import { useAuth } from "../contexts/authContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoMdCart } from "react-icons/io";
 import { BsShop } from "react-icons/bs";

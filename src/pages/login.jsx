@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { login, currentUser, logout } = useAuth();
+  const { login } = useAuth();
 
   const navigate = useNavigate();
   const handleLogin = async (e) => {
@@ -21,24 +21,6 @@ const Login = () => {
       setError(err.message);
     }
   };
-
-  // if (currentUser) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-  //       <div className="p-6 bg-white rounded shadow-md">
-  //         <h2 className="mb-4 text-2xl font-bold text-center text-gray-800">
-  //           Welcome, {currentUser.email}!
-  //         </h2>
-  //         <button
-  //           onClick={logout}
-  //           className="w-full px-3 py-2 text-white bg-red-600 rounded hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-200"
-  //         >
-  //           Logout
-  //         </button>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div>

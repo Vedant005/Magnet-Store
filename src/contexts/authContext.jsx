@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("currentUser")) || null
   );
 
-  // Check if user is logged in
   const isLoggedIn = !!currentUser;
 
   // Signup function
