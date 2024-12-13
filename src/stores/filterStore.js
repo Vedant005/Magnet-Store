@@ -25,3 +25,5 @@ const useFilterStore = create((set) => ({
     });
   },
 }));
+
+export default useFilterStore;

@@ -68,3 +68,5 @@ const useWishlistStore = create((set) => ({
     }
   },
 }));
+
+export default useWishlistStore;

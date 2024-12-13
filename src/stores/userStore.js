@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const useFilterStore = create((set) => ({
+const useUserStore = create((set) => ({
   user: null,
   loading: false,
   error: null,
@@ -63,3 +63,5 @@ const useFilterStore = create((set) => ({
     }
   },
 }));
+
+export default useUserStore;
