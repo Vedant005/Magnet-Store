@@ -1,9 +1,18 @@
 import React from "react";
 import Header from "../components/Header";
+import useFilterStore from "../stores/filterStore.js";
+
 import { useNavigate } from "react-router-dom";
 
 export default function App() {
   const navigate = useNavigate();
+  const { filters, setFilter } = useFilterStore();
+
+  const handleFilterChange = (key, value) => {
+    setFilter(key, value);
+    navigate("/products");
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="sticky top-0 z-10">
@@ -38,7 +47,7 @@ export default function App() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {[
             {
-              name: "Bowl",
+              name: "Bowls",
               image:
                 "https://images.unsplash.com/photo-1567763745030-bfe9c51bec27?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             },
@@ -64,6 +73,14 @@ export default function App() {
                 backgroundImage: `url(${product.image})`,
               }}
               className="h-80 rounded-lg bg-cover bg-center shadow-xl overflow-hidden group relative"
+              onClick={() => {
+                const newCategories = filters.categoryFilter.includes(
+                  product.name
+                )
+                  ? filters.categoryFilter.filter((cat) => cat !== product.name)
+                  : [...filters.categoryFilter, product.name];
+                handleFilterChange("categoryFilter", newCategories);
+              }}
             >
               <div className="absolute inset-0 bg-black bg-opacity-40 transition-opacity duration-300 group-hover:bg-opacity-60" />
               <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
