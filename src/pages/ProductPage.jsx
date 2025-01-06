@@ -1,14 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Filter from "../components/Filter";
 import ProductCard from "../components/ProductCard";
-import { FilterContext } from "../contexts/filterContext";
+import useProductStore from "../stores/productStore.js";
 
 export default function ProductPage() {
-  const { sortByPriceFilteredProducts } = useContext(FilterContext);
-  console.log(sortByPriceFilteredProducts);
+  const { products } = useProductStore();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+  useEffect(() => {
+    useProductStore.getState().fetchAllProducts();
+  }, []);
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
   };
@@ -21,9 +23,9 @@ export default function ProductPage() {
           <Filter />
         </aside>
         <main className="w-full lg:w-3/4 lg:ml-4 my-5">
-          {sortByPriceFilteredProducts.length > 0 ? (
+          {products.length > 0 ? (
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-              {sortByPriceFilteredProducts.map((product) => (
+              {products.map((product) => (
                 <ProductCard key={product._id} {...product} />
               ))}
             </div>
