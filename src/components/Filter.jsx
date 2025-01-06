@@ -1,18 +1,29 @@
-import React, { useContext } from "react";
-import {
-  SORT_BY_PRICE,
-  SORT_BY_RANGE,
-  FILTER_BY_CATEGORY,
-  SORT_BY_RATING,
-  CLEAR_ALL_FILTERS,
-} from "../variables/variables.js";
+import React, { useEffect } from "react";
+import useFilterStore from "../stores/filterStore.js";
+import useProductStore from "../stores/productStore.js";
 
-import { FilterContext } from "../contexts/filterContext";
-import { ProductContext } from "../contexts/productContext";
+function Filter({ toggleFilter }) {
+  const { filters, setFilter, resetFilters } = useFilterStore();
+  const { fetchFilteredProducts } = useProductStore();
 
-function Filter({ isOpen, toggleFilter }) {
-  const { productState } = useContext(ProductContext);
-  const { filterState, filterDispatch } = useContext(FilterContext);
+  const handleApplyFilters = () => {
+    fetchFilteredProducts();
+  };
+
+  const handleFilterChange = (key, value) => {
+    setFilter(key, value);
+    handleApplyFilters();
+  };
+
+  const reset = () => {
+    resetFilters();
+    fetchFilteredProducts();
+  };
+
+  useEffect(() => {
+    fetchFilteredProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="bg-gray-100 p-6 rounded-lg shadow-md">
@@ -20,9 +31,7 @@ function Filter({ isOpen, toggleFilter }) {
         <h1 className="text-lg font-bold">FILTERS</h1>
         <div className="flex items-center">
           <button
-            onClick={() =>
-              filterDispatch({ type: CLEAR_ALL_FILTERS, payload: "" })
-            }
+            onClick={reset}
             className="text-sm text-blue-600 hover:text-blue-800 font-semibold mr-4"
           >
             CLEAR
@@ -44,13 +53,8 @@ function Filter({ isOpen, toggleFilter }) {
               <input
                 type="radio"
                 value={value}
-                checked={filterState.sortBy === value}
-                onChange={(e) =>
-                  filterDispatch({
-                    type: SORT_BY_PRICE,
-                    payload: e.target.value,
-                  })
-                }
+                checked={filters.sortBy === value}
+                onChange={(e) => handleFilterChange("sortBy", e.target.value)}
                 className="form-radio text-blue-600"
               />
               <span>
@@ -77,31 +81,31 @@ function Filter({ isOpen, toggleFilter }) {
           min="1000"
           max="5000"
           step="1000"
-          value={filterState?.priceRange || 5000}
+          value={filters.priceRange || 5000}
           className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-          onChange={(e) =>
-            filterDispatch({ type: SORT_BY_RANGE, payload: e.target.value })
-          }
+          onChange={(e) => handleFilterChange("priceRange", e.target.value)}
         />
       </section>
 
       <section className="mb-6">
         <h2 className="text-md font-semibold mb-3">CATEGORIES</h2>
         <div className="space-y-2">
-          {productState?.categories?.map(({ _id, categoryName }) => (
-            <label key={_id} className="flex items-center space-x-2">
+          {["Bowls", "Glassware", "Plates", "Dinner Set"].map((category) => (
+            <label key={category} className="flex items-center space-x-2">
               <input
                 type="checkbox"
-                checked={filterState?.categoryFilter?.includes(categoryName)}
-                onChange={() =>
-                  filterDispatch({
-                    type: FILTER_BY_CATEGORY,
-                    payload: categoryName,
-                  })
-                }
+                checked={filters.categoryFilter.includes(category)}
+                onChange={() => {
+                  const newCategories = filters.categoryFilter.includes(
+                    category
+                  )
+                    ? filters.categoryFilter.filter((cat) => cat !== category)
+                    : [...filters.categoryFilter, category];
+                  handleFilterChange("categoryFilter", newCategories);
+                }}
                 className="form-checkbox text-blue-600"
               />
-              <span>{categoryName}</span>
+              <span>{category}</span>
             </label>
           ))}
         </div>
@@ -114,17 +118,15 @@ function Filter({ isOpen, toggleFilter }) {
             <label key={rating} className="flex items-center space-x-2">
               <input
                 type="radio"
-                name="rating"
+                name="ratings"
                 value={rating}
-                checked={Number(filterState?.ratings) === rating}
+                checked={Number(filters.ratings) === rating}
                 onChange={(e) =>
-                  filterDispatch({
-                    type: SORT_BY_RATING,
-                    payload: e.target.value,
-                  })
+                  handleFilterChange("ratings", parseInt(e.target.value, 10))
                 }
                 className="form-radio text-blue-600"
               />
+
               <span>{rating}⭐ and above</span>
             </label>
           ))}
