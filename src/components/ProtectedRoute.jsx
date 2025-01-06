@@ -1,15 +1,14 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../contexts/authContext";
+import { Navigate, Outlet } from "react-router-dom";
+import useUserStore from "../stores/userStore";
 
-const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn } = useAuth();
+const ProtectedRoute = ({ redirectTo = "/login" }) => {
+  const { user } = useUserStore();
 
-  if (!isLoggedIn) {
-    return <Navigate to="/login" />;
+  if (!user) {
+    return <Navigate to={redirectTo} replace />;
   }
-
-  return children;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;
