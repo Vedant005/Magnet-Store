@@ -1,72 +1,88 @@
 import { create } from "zustand";
+import apiClient from "../utils/axiosInterceptor";
+import { persist } from "zustand/middleware";
+import { toast } from "react-toastify";
 
-const useWishlistStore = create((set) => ({
-  wishlistItems: [],
-  loading: false,
-  error: null,
+const useWishlistStore = create(
+  persist((set, get) => ({
+    wishlistItems: [],
+    fetchingWishlist: false,
+    loading: false,
+    error: null,
 
-  fetchWishlistItems: async () => {
-    set({ loading: true, error: null });
-
-    try {
-      const response = await fetch("/api/v1/wishlist/get-wishlist-items");
-      if (!response.ok) {
-        throw new Error("Failed to fetch wishlist items");
+    normalizeCartData: (data) => {
+      if (!data?.items || !Array.isArray(data.items)) {
+        return [];
       }
+      return data.items.map((item) => ({
+        ...item,
+        quantity: item.quantity || 1,
+      }));
+    },
 
-      const data = await response.json();
-      set({ wishlistItems: data.data, loading: false });
-    } catch (error) {
-      set({ error: error.message, leading: false });
-    }
-  },
+    setFetchingWishlist: (fetching) => {
+      set({ fetchingWishlist: fetching });
+    },
 
-  addToWishlist: async (productId) => {
-    set({ loading: true, error: null });
-    try {
-      const response = await fetch("/api/v1/wishlist/add-wishlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId }),
-      });
-      if (!response.ok) throw new Error("Failed to add to wishlist");
+    fetchWishlistItems: async () => {
+      set({ fetchingWishlist: true, error: null });
 
-      const updatedWishlist = await response.json;
-      set({ wishlistItems: updatedWishlist.data, loading: false });
-    } catch (error) {
-      set({ error: error.message, loading: false });
-    }
-  },
-  removeFromWishlist: async (productId) => {
-    set({ loading: true, error: null });
-    try {
-      const response = await fetch("/api/v1/wishlist/remove-from-wishlist", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId }),
-      });
-      if (!response.ok) throw new Error("Failed to remove from wishlist");
+      try {
+        const response = await apiClient.get("/wishlist/get");
+        const wishListData = Array.isArray(response.data.data)
+          ? response.data.data[0]
+          : response.data.data;
+        const normalizedItems = get().normalizeCartData(wishListData);
 
-      const updatedWishlist = await response.json();
-      set({ wishlistItems: updatedWishlist.data, loading: false });
-    } catch (error) {
-      set({ error: error.message, loading: false });
-    }
-  },
+        set({ wishlistItems: normalizedItems, loading: false });
+      } catch (error) {
+        set({
+          error: error.response?.data?.message || error.message,
+          fetchingWishlist: false,
+        });
+      }
+    },
 
-  clearWishlist: async () => {
-    set({ loading: true, error: null });
-    try {
-      const response = await fetch("/api/v1/wishlist/clear-wishlist", {
-        method: "DELETE",
-      });
-      if (!response.ok) throw new Error("Failed to clear wishlist");
+    clearWishlist: async () => {
+      set({ loading: true, error: null });
 
-      set({ wishlistItems: [], loading: false });
-    } catch (error) {
-      set({ error: error.message, loading: false });
-    }
-  },
-}));
+      try {
+        const response = await apiClient.delete("/wishlist/clear");
+        const wishListData = Array.isArray(response.data.data)
+          ? response.data.data[0]
+          : response.data.data;
+        const normalizedItems = get().normalizeCartData(wishListData);
+
+        set({ wishlistItems: normalizedItems, loading: false });
+      } catch (error) {
+        set({
+          error: error.response?.data?.message || error.message,
+          loading: false,
+        });
+      }
+    },
+
+    toggleWishlist: async (productId) => {
+      set({ loading: true, error: null });
+      try {
+        const response = await apiClient.post(`/wishlist/toggle/${productId}`);
+        const wishListData = Array.isArray(response.data.data)
+          ? response.data.data[0]
+          : response.data.data;
+        const normalizedItems = get().normalizeCartData(wishListData);
+        set({ wishlistItems: normalizedItems });
+        toast.success("Wiishlist toggled!");
+      } catch (error) {
+        set({
+          error: error.response?.data?.message || error.message,
+          loading: false,
+        });
+      }
+    },
+
+    reset: () =>
+      set({ wishlistItems: [], fetchingWishlist: false, error: null }),
+  }))
+);
 
 export default useWishlistStore;
