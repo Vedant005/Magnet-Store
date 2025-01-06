@@ -18,18 +18,18 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductPage />} />
         <Route path="/products/:productId" element={<SingleProductPage />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/cart" element={<ProtectedRoute />}>
+          <Route path="" element={<Cart />} />
+        </Route>
+
+        <Route path="/wishlist" element={<ProtectedRoute />}>
+          <Route path="" element={<Wishlist />} />
+        </Route>
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/userDetails"
-          element={
-            <ProtectedRoute>
-              <UserDetails />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/userDetails" element={<ProtectedRoute />}>
+          <Route path="" element={<UserDetails />} />
+        </Route>
         <Route path="/signup" element={<Signup />} />
       </Routes>
     </>
