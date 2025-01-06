@@ -1,29 +1,37 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-const useFilterStore = create((set) => ({
-  filters: {
-    search: "",
-    priceRange: 5000,
-    category: [],
-    ratings: 0,
-  },
+const useFilterStore = create(
+  persist((set) => ({
+    filters: {
+      search: "",
+      sortBy: "",
+      priceRange: "",
+      categoryFilter: [],
+      ratings: 2,
+    },
 
-  setFiltes: (filterKey, value) => {
-    set((state) => ({
-      filters: { ...state.filters, [filterKey]: value },
-    }));
-  },
+    setFilter: (key, value) =>
+      set((state) => ({
+        filters: {
+          ...state.filters,
+          [key]: key === "ratings" ? +value : value,
+        },
+      })),
 
-  resetFilter: () => {
-    set({
-      filters: {
-        search: "",
-        priceRange: 5000,
-        category: [],
-        ratings: 0,
-      },
-    });
-  },
-}));
+    resetFilters: () => {
+      console.log("Resetting filters...");
+      set({
+        filters: {
+          search: "",
+          sortBy: "",
+          priceRange: "",
+          categoryFilter: [],
+          ratings: 2,
+        },
+      });
+    },
+  }))
+);
 
 export default useFilterStore;
