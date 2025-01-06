@@ -1,47 +1,55 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ProductContext } from "../contexts/productContext";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { CartContext } from "../contexts/cartContext";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
+import useProductStore from "../stores/productStore";
+import useCartStore from "../stores/cartStore";
+import useWishlistStore from "../stores/wishlistStore";
+import useUserStore from "../stores/userStore";
 
 function SingleProductPage() {
-  const { getsingleProduct } = useContext(ProductContext);
-  const { addToCart, cart } = useContext(CartContext);
-  const navigate = useNavigate();
+  const { singleProduct, fetchSingleProduct } = useProductStore();
 
-  const [getsingle, setsingleProduct] = useState({});
-  const [isInCart, setIsInCart] = useState(false);
+  const navigate = useNavigate();
+  const { addToCart, cartItems } = useCartStore();
+  const { wishlistItems, toggleWishlist } = useWishlistStore();
+  const { user } = useUserStore();
 
   const { productId } = useParams();
 
   useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const product = await getsingleProduct(productId);
-        setsingleProduct(product?.product);
-      } catch (e) {
-        console.log(e);
-      }
-    };
+    fetchSingleProduct(productId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    getProduct();
-  }, [getsingleProduct, productId]);
-
-  const { _id, title, price, img, ratings, description } = getsingle;
-
-  useEffect(() => {
-    setIsInCart(cart.some((item) => item._id === _id));
-  }, [cart, _id]);
+  const { _id, title, price, img, ratings, description } = singleProduct;
 
   const handleButtonClick = () => {
-    if (isInCart) {
-      navigate("/cart");
+    if (user) {
+      if (cartItems?.some((item) => item.product === _id)) {
+        navigate("/cart");
+      } else {
+        addToCart(productId);
+      }
     } else {
-      addToCart(getsingle);
+      navigate("/login");
     }
   };
+
+  const toggleWishlistHandler = (e) => {
+    e.stopPropagation();
+    if (user) {
+      if (wishlistItems?.some((item) => item._id === _id)) {
+        navigate("/wishlist");
+      } else {
+        toggleWishlist(productId);
+      }
+    } else {
+      navigate("/login");
+    }
+  };
+  const isWishlisted = wishlistItems?.some((item) => item._id === _id);
 
   return (
     <div>
@@ -65,11 +73,6 @@ function SingleProductPage() {
               </h1>
               <div className="flex items-center my-3">
                 <p className="text-2xl font-semibold text-black">${price}</p>
-                {/* <del>
-                  <p className="text-lg text-gray-600 ml-2">
-                    MRP: ${(price * 1.2).toFixed(2)}
-                  </p>
-                </del> */}
               </div>
               <div className="flex items-center mb-4">
                 <p className="text-lg mr-2">{ratings}⭐</p>
@@ -82,13 +85,25 @@ function SingleProductPage() {
               </p>
               <button
                 onClick={handleButtonClick}
-                className={`mt-auto w-full text-white px-3 py-2 rounded-lg transition duration-300 text-sm ${
-                  isInCart
+                className={`mt-auto w-full text-white px-3 py-2 rounded-lg transition duration-300 text-sm mb-3 ${
+                  cartItems?.some((item) => item.product === _id)
                     ? "bg-green-600 hover:bg-green-700"
                     : "bg-blue-600 hover:bg-blue-700"
                 }`}
               >
-                {isInCart ? "GO TO CART" : "Add to cart"}
+                {cartItems?.some((item) => item.product === _id)
+                  ? "GO TO CART"
+                  : "ADD TO CART"}
+              </button>
+              <button
+                onClick={toggleWishlistHandler}
+                className={`mt-auto w-full text-white px-3 py-2 rounded-lg transition duration-300 text-sm ${
+                  isWishlisted
+                    ? "bg-green-600 hover:bg-green-700"
+                    : "bg-blue-600 hover:bg-blue-700"
+                }`}
+              >
+                {isWishlisted ? "GO TO WISHLIST" : "ADD TO WISHLIST"}
               </button>
             </div>
           </div>
