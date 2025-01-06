@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-import { useAuth } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import useUserStore from "../stores/userStore";
 
 const SignUp = () => {
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [fullName, setfullName] = useState("");
+  const [phoneNumber, setphoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { signup } = useAuth();
+  const { register } = useUserStore();
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      signup(firstname, lastname, email, password);
+      register({ fullName, email, phoneNumber, password });
+
       setError("");
       navigate("/login");
     } catch (err) {
@@ -41,15 +42,15 @@ const SignUp = () => {
               htmlFor="firstname"
               className="block mb-1 text-sm font-semibold text-gray-600"
             >
-              First Name
+              Full Name
             </label>
             <input
               type="text"
-              id="firstname"
-              value={firstname}
-              onChange={(e) => setFirstname(e.target.value)}
+              id="fullName"
+              value={fullName}
+              onChange={(e) => setfullName(e.target.value)}
               className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
-              placeholder="Enter your first name"
+              placeholder="Enter your full name"
               required
             />
           </div>
@@ -58,15 +59,15 @@ const SignUp = () => {
               htmlFor="lastname"
               className="block mb-1 text-sm font-semibold text-gray-600"
             >
-              Last Name
+              Phone Number
             </label>
             <input
               type="text"
-              id="lastname"
-              value={lastname}
-              onChange={(e) => setLastname(e.target.value)}
+              id="phoneNumber"
+              value={phoneNumber}
+              onChange={(e) => setphoneNumber(e.target.value)}
               className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
-              placeholder="Enter your last name"
+              placeholder="Enter your Phone Number"
               required
             />
           </div>
