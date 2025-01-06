@@ -1,26 +1,27 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CartContext } from "../contexts/cartContext";
-import { useAuth } from "../contexts/authContext";
-import { WishlistContext } from "../contexts/wishlistContext";
+
+import useCartStore from "../stores/cartStore";
+import useWishlistStore from "../stores/wishlistStore";
+import useUserStore from "../stores/userStore";
+import { toast } from "react-toastify";
 
 function ProductCard(product) {
-  const { addToCart, cart } = useContext(CartContext);
-  const { addToWishListHandler, wishList } = useContext(WishlistContext);
   const { _id, title, ratings, price, img, brandName, discount } = product;
-  const [isInCart, setIsInCart] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(false);
 
+  const { addToCart, cartItems, fetchCartItems } = useCartStore();
+  const { wishlistItems, toggleWishlist, fetchWishlistItems } =
+    useWishlistStore();
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
+  const { user } = useUserStore();
 
   useEffect(() => {
-    setIsInCart(cart.some((item) => item._id === _id));
-  }, [cart, _id]);
-
-  useEffect(() => {
-    setIsWishlisted(wishList.some((item) => item._id === _id));
-  }, [wishList, _id]);
+    if (user) {
+      fetchCartItems();
+      fetchWishlistItems();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   if (!_id || !title || !price || !img) {
     console.error("Missing required product props:", {
@@ -36,25 +37,29 @@ function ProductCard(product) {
   }
 
   const handleButtonClick = () => {
-    if (isLoggedIn) {
-      if (isInCart) {
+    if (user) {
+      if (cartItems?.some((item) => item.product === _id)) {
         navigate("/cart");
       } else {
-        addToCart(product);
+        addToCart(_id);
+        toast.success("Product added to cart!");
       }
     } else {
       navigate("/login");
     }
   };
 
-  const toggleWishlist = (e) => {
-    e.stopPropagation(); // Prevent image click event from firing
-    if (isLoggedIn) {
-      addToWishListHandler(product);
+  const toggleWishlistHandler = async (e) => {
+    e.stopPropagation();
+    if (user) {
+      await toggleWishlist(_id);
     } else {
       navigate("/login");
     }
   };
+
+  const isWishlisted = wishlistItems?.some((item) => item._id === _id);
+
   const dis = discount / 100;
   const remaining = price * dis;
   const finalPrice = price - remaining;
@@ -70,7 +75,7 @@ function ProductCard(product) {
             onClick={() => navigate(`/products/${_id}`)}
           />
           <button
-            onClick={toggleWishlist}
+            onClick={toggleWishlistHandler}
             className="absolute top-2 right-2 p-1 rounded-full bg-white bg-opacity-70 hover:bg-opacity-100 transition-all duration-300"
           >
             <svg
@@ -101,17 +106,19 @@ function ProductCard(product) {
           </div>
           <div className="flex gap-2">
             <del className="text-xs text-gray-600 mt-1">{price}</del>
-            <p className="text-xs text-gray-600 mt-1">({discount}%off)</p>
+            <p className="text-xs text-gray-600 mt-1">({discount}% off)</p>
           </div>
           <button
             onClick={handleButtonClick}
             className={`mt-auto w-full text-white px-3 py-2 rounded-lg transition duration-300 text-sm ${
-              isInCart
+              cartItems?.some((item) => item.product === _id)
                 ? "bg-green-600 hover:bg-green-700"
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {isInCart ? "GO TO CART" : "Add to cart"}
+            {cartItems?.some((item) => item.product === _id)
+              ? "Go to cart"
+              : "Add to cart"}
           </button>
         </div>
       </div>
