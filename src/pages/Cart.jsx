@@ -1,36 +1,70 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import Header from "../components/Header";
-import { CartContext } from "../contexts/cartContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
 import emptyCartAnimation from "../animations/empty-cart.json";
+import useCartStore from "../stores/cartStore";
+import useUserStore from "../stores/userStore";
+import { toast } from "react-toastify";
 
 function Cart() {
   const {
-    cart,
-    totalItems,
-    productQuantityIncrement,
-    productQuantityDecrement,
+    cartItems,
+    fetchCartItems,
     removeFromCart,
-    totalPrice,
-  } = useContext(CartContext);
+    increaseQuantity,
+    decreaseQuantity,
+    clearCart,
+    fetchingCart,
+  } = useCartStore();
+
+  const { fetchCurrentUser } = useUserStore();
   const navigate = useNavigate();
 
   // Lottie animation options
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: emptyCartAnimation, //  Lottie JSON file
+    animationData: emptyCartAnimation,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
 
+  useEffect(() => {
+    fetchCartItems();
+    fetchCurrentUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const clearAll = () => {
+    clearCart();
+    toast.success("Cart cleared!");
+  };
+
+  const handleAction = async (action) => {
+    await action();
+    fetchCartItems();
+  };
+
+  const totalQuantity = cartItems?.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+
+  if (fetchingCart) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="text-2xl text-gray-700">Loading your cart...</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-50">
       <Header />
       <div className="flex flex-col md:flex-row justify-between px-4 md:px-8 py-6 mt-20">
-        {cart.length === 0 ? (
+        {cartItems?.length === 0 ? (
           <div className="w-full text-center">
             <div className="max-w-md mx-auto">
               <div className="w-64 h-64 mx-auto">
@@ -44,7 +78,7 @@ function Cart() {
               </p>
               <NavLink
                 to="/products"
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
               >
                 Start Shopping
               </NavLink>
@@ -53,51 +87,72 @@ function Cart() {
         ) : (
           <>
             <div className="w-full md:w-2/3 mb-6 md:mb-0">
-              {cart.map((item) => {
-                const { _id, title, price, ratings, img, quantity } = item;
+              {cartItems?.map((item) => {
+                const {
+                  product,
+                  title,
+                  price,
+                  ratings,
+                  img,
+                  quantity,
+                  discount,
+                  finalPrice,
+                } = item;
 
                 return (
                   <div
-                    key={_id}
-                    className="flex flex-col sm:flex-row bg-white p-4 shadow-md rounded-lg mb-4"
+                    key={product}
+                    className="flex flex-col sm:flex-row bg-white p-6 rounded-lg shadow-lg mb-6 hover:shadow-xl transition duration-300 ease-in-out"
                   >
-                    <NavLink
-                      to={`/product/${_id}`}
-                      className="w-full sm:w-1/4 mb-4 sm:mb-0"
-                    >
-                      <div className="aspect-w-1 aspect-h-1">
-                        <img
-                          className="w-full h-full object-cover rounded"
-                          src={img}
-                          alt={title}
-                        />
-                      </div>
-                    </NavLink>
+                    <div className="aspect-w-1 aspect-h-1 w-full sm:w-1/3 rounded-lg overflow-hidden">
+                      <img
+                        className="w-full h-full object-cover"
+                        src={img}
+                        alt={title}
+                        onClick={() => navigate(`/products/${product}`)}
+                      />
+                    </div>
 
-                    <div className="w-full sm:w-3/4 sm:pl-4">
-                      <h1 className="text-xl font-semibold">{title}</h1>
-                      <p>Rating: {ratings}</p>
-                      <p>Price: ₹{price}</p>
-                      <div className="flex items-center mt-2">
+                    <div className="w-full sm:w-2/3 sm:pl-6 mt-4 sm:mt-0">
+                      <h1 className="text-2xl font-semibold text-gray-800 hover:text-blue-500 cursor-pointer transition duration-200 ease-in-out">
+                        {title}
+                      </h1>
+                      <p className="text-gray-500 mt-2">Rating: {ratings}</p>
+                      <p className="text-lg font-semibold text-gray-800 mt-2">
+                        Price: ₹{price}
+                      </p>
+                      <p className="text-sm text-gray-500 mt-2">
+                        Discount: {discount}%
+                      </p>
+                      <p className="text-xl font-semibold text-green-600 mt-2">
+                        Final Price: ₹{finalPrice}
+                      </p>
+
+                      <div className="flex items-center mt-4">
                         <button
-                          className="bg-gray-200 px-2 py-1 rounded-l"
-                          onClick={() => productQuantityDecrement(item)}
+                          className="bg-gray-200 text-gray-700 px-3 py-1 rounded-l-md hover:bg-gray-300 transition duration-200 ease-in-out"
+                          onClick={() => decreaseQuantity(product)}
                           disabled={quantity === 1}
                         >
                           -
                         </button>
-                        <div className="bg-gray-100 px-4 py-1">{quantity}</div>
+                        <div className="bg-gray-100 px-4 py-1 text-gray-800">
+                          {quantity}
+                        </div>
                         <button
-                          className="bg-gray-200 px-2 py-1 rounded-r"
-                          onClick={() => productQuantityIncrement(item)}
+                          className="bg-gray-200 text-gray-700 px-3 py-1 rounded-r-md hover:bg-gray-300 transition duration-200 ease-in-out"
+                          onClick={() => increaseQuantity(product)}
                         >
                           +
                         </button>
                       </div>
-                      <div className="mt-2">
+
+                      <div className="mt-4">
                         <button
-                          onClick={() => removeFromCart(item)}
-                          className="bg-red-500 text-white px-4 py-2 rounded"
+                          onClick={() =>
+                            handleAction(() => removeFromCart(product))
+                          }
+                          className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition duration-200 ease-in-out"
                         >
                           Remove
                         </button>
@@ -107,27 +162,39 @@ function Cart() {
                 );
               })}
             </div>
+
             <div className="w-full md:w-1/3 md:pl-4">
-              <div className="bg-white p-4 shadow-md rounded-lg md:sticky md:top-4">
-                <h2 className="text-xl font-semibold mb-4">Cart Summary</h2>
-                <div className="flex justify-between mb-2">
-                  <p>Price ({totalItems} items)</p>
-                  <p>₹{totalPrice}</p>
+              <div className="bg-white p-6 rounded-lg shadow-lg md:sticky md:top-4">
+                <h2 className="text-2xl font-semibold mb-6">Cart Summary</h2>
+                <div className="flex justify-between mb-4">
+                  <p className="text-lg">Delivery Charges</p>
+                  <p className="text-lg text-green-500">Free</p>
                 </div>
-                <div className="flex justify-between mb-2">
-                  <p>Delivery Charges</p>
-                  <p>Free</p>
-                </div>
-                <div className="flex justify-between font-semibold">
-                  <p>Total Amount</p>
-                  <p>₹{totalPrice}</p>
+                <div className="flex justify-between font-semibold text-lg mb-6">
+                  <p>Total Amount (Items: {totalQuantity})</p>
+                  <p>
+                    ₹
+                    {cartItems.reduce(
+                      (total, item) => total + item.price * item.quantity,
+                      0
+                    )}
+                  </p>
                 </div>
                 <button
-                  className="w-full bg-blue-500 text-white px-4 py-2 rounded mt-4"
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-200 ease-in-out"
                   onClick={() => navigate("/checkout")}
                 >
                   Checkout
                 </button>
+
+                <div className="mt-6">
+                  <button
+                    onClick={clearAll}
+                    className="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-200 ease-in-out"
+                  >
+                    Clear Cart
+                  </button>
+                </div>
               </div>
             </div>
           </>
