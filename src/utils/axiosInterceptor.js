@@ -1,11 +1,12 @@
 import axios from "axios";
 
+// Create Axios instance
 const apiClient = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
-  withCredentials: true,
+  withCredentials: true, // Ensures cookies are sent with requests
 });
 
-// Remove direct store access from interceptor
+// Track refresh token status and subscribers
 let subscribers = [];
 let isRefreshing = false;
 
@@ -15,13 +16,14 @@ const onRefreshed = (accessToken) => {
 };
 
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => response, // Pass through successful responses
   async (error) => {
     const originalRequest = error.config;
 
+    // Handle 401 errors (unauthorized)
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
-        // Wait for token refresh
+        // If a refresh request is already in progress, queue the current request
         return new Promise((resolve) => {
           subscribers.push((accessToken) => {
             originalRequest.headers.Authorization = `Bearer ${accessToken}`;
@@ -34,42 +36,27 @@ apiClient.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const response = await apiClient.post("/users/refresh-token");
-        const { accessToken } = response.data.data;
-
-        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        onRefreshed(accessToken);
+        // Attempt to refresh the access token
+        await apiClient.post(
+          "/users/refresh-token",
+          {},
+          { withCredentials: true }
+        );
+        onRefreshed(); // Notify subscribers
         isRefreshing = false;
 
+        // Retry the original request
         return apiClient(originalRequest);
       } catch (refreshError) {
         isRefreshing = false;
-        // Let the store handle the logout
+
+        // Force logout if refresh fails
         window.dispatchEvent(new Event("forceLogout"));
         return Promise.reject(refreshError);
       }
     }
 
-    return Promise.reject(error);
-  }
-);
-
-apiClient.interceptors.request.use(
-  (config) => {
-    // Get token from cookie
-    const cookies = document.cookie.split(";");
-    const accessToken = cookies
-      .find((cookie) => cookie.trim().startsWith("accessToken="))
-      ?.split("=")[1];
-
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
+    return Promise.reject(error); // Pass other errors through
   }
 );
 export default apiClient;
