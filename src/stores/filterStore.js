@@ -20,7 +20,7 @@ const useFilterStore = create(
       })),
 
     resetFilters: () => {
-      console.log("Resetting filters...");
+     
       set({
         filters: {
           search: "",
