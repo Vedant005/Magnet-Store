@@ -85,8 +85,10 @@ export default function Checkout() {
   return (
     <div className="bg-gray-100 min-h-screen">
       <Header />
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Checkout</h1>
+      <div className="container mx-auto px-4 py-8 mt-10">
+        <h1 className="text-3xl font-bold mb-5 mt-4 text-center text-red-500 ">
+          Checkout
+        </h1>
         <div className="flex flex-col md:flex-row gap-8">
           <div className="w-full md:w-1/2 md:h-2/4 bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-4">Order Details</h2>
@@ -205,12 +207,20 @@ export default function Checkout() {
                   className="w-full px-3 py-2 border rounded"
                 />
                 {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-                <button
-                  onClick={handleAddNewAddress}
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                >
-                  Add Address
-                </button>
+                <div className="flex justify-between gap-4">
+                  <button
+                    onClick={handleAddNewAddress}
+                    className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                  >
+                    Add Address
+                  </button>
+                  <button
+                    onClick={() => setShowNewAddressForm(false)}
+                    className="w-full bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             )}
           </div>
