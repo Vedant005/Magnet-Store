@@ -8,26 +8,26 @@ const useFilterStore = create(
       sortBy: "",
       priceRange: "",
       categoryFilter: [],
-      ratings: 2,
+      ratings: "",
     },
 
-    setFilter: (key, value) =>
+    setFilter: (key, value) => {
       set((state) => ({
         filters: {
           ...state.filters,
           [key]: key === "ratings" ? +value : value,
         },
-      })),
+      }));
+    },
 
     resetFilters: () => {
-     
       set({
         filters: {
           search: "",
           sortBy: "",
           priceRange: "",
           categoryFilter: [],
-          ratings: 2,
+          ratings: "",
         },
       });
     },
