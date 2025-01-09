@@ -5,6 +5,7 @@ import useCartStore from "../stores/cartStore";
 import useWishlistStore from "../stores/wishlistStore";
 import useUserStore from "../stores/userStore";
 import { toast } from "react-toastify";
+import { FaStar } from "react-icons/fa";
 
 function ProductCard(product) {
   const { _id, title, ratings, price, img, brandName, discount } = product;
@@ -102,8 +103,21 @@ function ProductCard(product) {
           </p>
           <div className="flex items-center justify-between mt-2">
             <p className="text-lg font-semibold text-black">₹{finalPrice}</p>
-            <p className="text-sm">{ratings}⭐</p>
+            <div className="flex items-center ">
+              <p className="mr-2">{ratings}</p>
+              <div className="flex">
+                {[...Array(5)].map((_, i) => (
+                  <FaStar
+                    key={i}
+                    className={
+                      i < ratings ? "text-yellow-400" : "text-gray-300"
+                    }
+                  />
+                ))}
+              </div>
+            </div>
           </div>
+
           <div className="flex gap-2">
             <del className="text-xs text-gray-600 mt-1">{price}</del>
             <p className="text-xs text-gray-600 mt-1">({discount}% off)</p>
