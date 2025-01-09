@@ -75,29 +75,28 @@ export const UserDetails = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <Header />
-      <div className="container mx-auto p-6">
-        <div className="flex flex-col gap-6 justify-between w-3/4 m-20">
-          <div className="bg-white rounded-lg shadow-md p-8 ">
-            <h1 className="text-2xl font-bold mb-4">{user?.fullName}</h1>
+      <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+        <div className="space-y-6">
+          <div className="bg-white rounded-lg shadow-md p-6 mt-10">
+            <h1 className="text-xl font-bold mb-4">{user?.fullName}</h1>
             <p className="text-gray-700 mb-2">Email: {user?.email}</p>
-            <p className="text-gray-700 mb-6">Phone: {user?.phoneNumber}</p>
+            <p className="text-gray-700 mb-4">Phone: {user?.phoneNumber}</p>
             <button
               onClick={handleLogout}
-              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+              className="w-full md:w-auto bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
             >
               Logout
             </button>
           </div>
 
-          {/* Address Section */}
-          <div className="bg-white rounded-lg shadow-md p-8 flex-grow ">
-            <h2 className="text-xl font-semibold mb-4">Addresses</h2>
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-lg font-semibold mb-4">Addresses</h2>
             {addressLoading ? (
               <p>Loading addresses...</p>
             ) : addressError ? (
               <p className="text-red-500">{addressError}</p>
             ) : (
-              <ul className="space-y-4 border-neutral-950">
+              <ul className="space-y-4">
                 {addresses.map((address) => (
                   <li
                     key={address._id}
@@ -124,7 +123,7 @@ export const UserDetails = () => {
             )}
             <button
               onClick={() => setShowNewAddressForm(true)}
-              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+              className="mt-4 w-full md:w-auto bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
             >
               + Add New Address
             </button>
@@ -150,12 +149,20 @@ export const UserDetails = () => {
                     className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 ))}
-                <button
-                  onClick={handleAddNewAddress}
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                >
-                  Add Address
-                </button>
+                <div className="flex justify-between gap-4">
+                  <button
+                    onClick={handleAddNewAddress}
+                    className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                  >
+                    Add Address
+                  </button>
+                  <button
+                    onClick={() => setShowNewAddressForm(false)}
+                    className="w-full bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             )}
           </div>
