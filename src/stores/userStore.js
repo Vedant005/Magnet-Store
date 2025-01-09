@@ -18,7 +18,7 @@ const useUserStore = create(
         try {
           const response = await apiClient.post("/users/login", credentials);
           set({
-            user: response.data.data.user, // Set user data
+            user: response.data.data.user,
             loading: false,
           });
           toast.success("Login successful!");
@@ -37,7 +37,7 @@ const useUserStore = create(
         set({ loading: true, error: null });
 
         try {
-          await apiClient.post("/users/logout", {}); // Cookies automatically manage tokens
+          await apiClient.post("/users/logout", {});
           useCartStore.getState().reset();
           useWishlistStore.getState().reset();
 
@@ -62,7 +62,7 @@ const useUserStore = create(
           return true;
         } catch (error) {
           console.error("Refresh token error:", error);
-          // Clear user data on refresh failure
+
           set({
             user: null,
             error: "Session expired. Please login again.",
@@ -84,7 +84,6 @@ const useUserStore = create(
         } catch (error) {
           console.error("Fetch current user error:", error);
           if (error.response?.status === 401) {
-            // Attempt to refresh token if unauthorized
             const refreshSuccessful = await get().refreshAccessToken();
             if (refreshSuccessful) {
               return get().fetchCurrentUser();
