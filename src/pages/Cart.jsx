@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { NavLink, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
@@ -20,6 +20,7 @@ function Cart() {
 
   const { fetchCurrentUser } = useUserStore();
   const navigate = useNavigate();
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   // Lottie animation options
   const defaultOptions = {
@@ -45,6 +46,9 @@ function Cart() {
   const handleAction = async (action) => {
     await action();
     fetchCartItems();
+  };
+  const toggleCheckout = () => {
+    setIsCheckoutOpen(!isCheckoutOpen);
   };
 
   const totalQuantity = cartItems?.reduce(
@@ -163,8 +167,8 @@ function Cart() {
               })}
             </div>
 
-            <div className="w-full md:w-1/3 md:pl-4">
-              <div className="bg-white p-6 rounded-lg shadow-lg md:sticky md:top-4">
+            <div className="hidden md:block w-full md:w-1/3 md:pl-4">
+              <div className="bg-white p-6 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-semibold mb-6">Cart Summary</h2>
                 <div className="flex justify-between mb-4">
                   <p className="text-lg">Delivery Charges</p>
@@ -186,7 +190,6 @@ function Cart() {
                 >
                   Checkout
                 </button>
-
                 <div className="mt-6">
                   <button
                     onClick={clearAll}
@@ -199,6 +202,65 @@ function Cart() {
             </div>
           </>
         )}
+      </div>
+      <button
+        onClick={toggleCheckout}
+        className="fixed bottom-4 right-4 md:hidden bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg"
+      >
+        {isCheckoutOpen ? "Close" : "Checkout"}
+      </button>
+      \
+      <div
+        className={`fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden ${
+          isCheckoutOpen ? "block" : "hidden"
+        }`}
+        onClick={toggleCheckout}
+      ></div>
+      \
+      <div
+        className={`fixed bottom-0 left-0 right-0 bg-white z-50 transition-transform duration-300 ease-in-out transform md:hidden ${
+          isCheckoutOpen ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-semibold">Cart Summary</h2>
+            <button
+              onClick={toggleCheckout}
+              className="text-gray-500 hover:text-black"
+            >
+              ✕
+            </button>
+          </div>
+          <div className="flex justify-between mb-4">
+            <p className="text-lg">Delivery Charges</p>
+            <p className="text-lg text-green-500">Free</p>
+          </div>
+          <div className="flex justify-between font-semibold text-lg mb-6">
+            <p>Total Amount (Items: {totalQuantity})</p>
+            <p>
+              ₹
+              {cartItems.reduce(
+                (total, item) => total + item.price * item.quantity,
+                0
+              )}
+            </p>
+          </div>
+          <button
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-200 ease-in-out"
+            onClick={() => navigate("/checkout")}
+          >
+            Checkout
+          </button>
+          <div className="mt-6">
+            <button
+              onClick={clearAll}
+              className="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-200 ease-in-out"
+            >
+              Clear Cart
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
