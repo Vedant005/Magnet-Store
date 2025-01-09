@@ -6,6 +6,7 @@ import useWishlistStore from "../stores/wishlistStore";
 import useUserStore from "../stores/userStore";
 import { toast } from "react-toastify";
 import { FaStar } from "react-icons/fa";
+import useProductStore from "../stores/productStore";
 
 function ProductCard(product) {
   const { _id, title, ratings, price, img, brandName, discount } = product;
@@ -21,6 +22,7 @@ function ProductCard(product) {
       fetchCartItems();
       fetchWishlistItems();
     }
+    useProductStore.getState().fetchAllProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
