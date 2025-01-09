@@ -91,7 +91,7 @@ const useCartStore = create(
           ? response.data.data[0]
           : response.data.data;
         const normalizedItems = get().normalizeCartData(cartData);
-        console.log(normalizedItems);
+
         set({ cartItems: normalizedItems });
       } catch (error) {
         set({
