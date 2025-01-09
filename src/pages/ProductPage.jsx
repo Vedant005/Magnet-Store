@@ -52,6 +52,7 @@ export default function ProductPage() {
         className={`fixed bottom-0 left-0 right-0 bg-white z-50 transition-transform duration-300 ease-in-out transform lg:hidden ${
           isFilterOpen ? "translate-y-0" : "translate-y-full"
         }`}
+        style={{ display: isFilterOpen ? "block" : "none" }} // Always keep it mounted
       >
         <Filter isOpen={isFilterOpen} toggleFilter={toggleFilter} />
       </div>
