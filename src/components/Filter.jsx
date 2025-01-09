@@ -11,7 +11,11 @@ function Filter({ toggleFilter }) {
   };
 
   const handleFilterChange = (key, value) => {
+    if (key === "ratings") {
+      value = parseInt(value, 10);
+    }
     setFilter(key, value);
+
     handleApplyFilters();
   };
 
@@ -111,7 +115,7 @@ function Filter({ toggleFilter }) {
         </div>
       </section>
 
-      <section>
+      <form>
         <h2 className="text-md font-semibold mb-3">RATINGS</h2>
         <div className="space-y-2">
           {[4, 3, 2, 1].map((rating) => (
@@ -120,10 +124,10 @@ function Filter({ toggleFilter }) {
                 type="radio"
                 name="ratings"
                 value={rating}
-                checked={Number(filters.ratings) === rating}
-                onChange={(e) =>
-                  handleFilterChange("ratings", parseInt(e.target.value, 10))
-                }
+                checked={filters.ratings === rating}
+                onChange={(e) => {
+                  handleFilterChange("ratings", parseInt(e.target.value, 10));
+                }}
                 className="form-radio text-blue-600"
               />
 
@@ -131,7 +135,7 @@ function Filter({ toggleFilter }) {
             </label>
           ))}
         </div>
-      </section>
+      </form>
     </div>
   );
 }
