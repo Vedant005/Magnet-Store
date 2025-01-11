@@ -75,9 +75,9 @@ export const UserDetails = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <Header />
-      <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
-        <div className="space-y-6">
-          <div className="bg-white rounded-lg shadow-md p-6 mt-10">
+      <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-screen">
+        <div className="space-y-6 flex flex-col items-center w-full">
+          <div className="bg-white rounded-lg shadow-md p-6 mt-10 w-1/3 border-teal-600">
             <h1 className="text-xl font-bold mb-4">{user?.fullName}</h1>
             <p className="text-gray-700 mb-2">Email: {user?.email}</p>
             <p className="text-gray-700 mb-4">Phone: {user?.phoneNumber}</p>
@@ -89,7 +89,7 @@ export const UserDetails = () => {
             </button>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-white rounded-lg shadow-md p-6 w-1/3  border-teal-600 border-5">
             <h2 className="text-lg font-semibold mb-4">Addresses</h2>
             {addressLoading ? (
               <p>Loading addresses...</p>
