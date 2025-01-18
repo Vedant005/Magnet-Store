@@ -3,6 +3,8 @@ import Header from "../components/Header";
 import Filter from "../components/Filter";
 import ProductCard from "../components/ProductCard";
 import useProductStore from "../stores/productStore.js";
+import { useNavigate } from "react-router-dom";
+import useUserStore from "../stores/userStore.js";
 
 export default function ProductPage() {
   const { products } = useProductStore();
@@ -14,6 +16,31 @@ export default function ProductPage() {
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
   };
+
+  const navigate = useNavigate();
+  const { fetchCurrentUser, logout } = useUserStore();
+
+  useEffect(() => {
+    const initializeSession = async () => {
+      try {
+        // Attempt to refresh the token
+        await apiClient.post(
+          "/users/refresh-token",
+          {},
+          { withCredentials: true }
+        );
+        // Fetch current user if refresh was successful
+        await fetchCurrentUser();
+      } catch (error) {
+        console.error("Session initialization failed:", error);
+        // Redirect to login page on failure
+        logout();
+        navigate("/login");
+      }
+    };
+
+    initializeSession();
+  }, [fetchCurrentUser, logout, navigate]);
 
   return (
     <div className="min-h-screen flex flex-col">
