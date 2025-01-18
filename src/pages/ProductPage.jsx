@@ -5,6 +5,7 @@ import ProductCard from "../components/ProductCard";
 import useProductStore from "../stores/productStore.js";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../stores/userStore.js";
+import apiClient from "../utils/axiosInterceptor.js";
 
 export default function ProductPage() {
   const { products } = useProductStore();
