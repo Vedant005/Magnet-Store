@@ -5,6 +5,7 @@ import useUserStore from "../stores/userStore";
 import useAddressStore from "../stores/addressStore";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useCartStore from "../stores/cartStore";
 
 export const UserDetails = () => {
   const { fetchCurrentUser, user, logout } = useUserStore();
@@ -36,6 +37,7 @@ export const UserDetails = () => {
   }, []);
 
   const handleLogout = () => {
+    useCartStore.getState().reset();
     logout(user?._id);
     navigate("/login");
   };
