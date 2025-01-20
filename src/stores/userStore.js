@@ -67,7 +67,7 @@ const useUserStore = create(
             user: null,
             error: "Session expired. Please login again.",
           });
-          toast.error("Session expired. Please login again.");
+          // toast.error("Session expired. Please login again.");
           return false;
         }
       },
