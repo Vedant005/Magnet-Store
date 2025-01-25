@@ -14,6 +14,7 @@ function SingleProductPage() {
   const navigate = useNavigate();
   const { addToCart, cartItems } = useCartStore();
   const { wishlistItems, toggleWishlist } = useWishlistStore();
+
   const { user } = useUserStore();
 
   const { productId } = useParams();
