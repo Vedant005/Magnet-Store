@@ -3,16 +3,29 @@ import Header from "../components/Header";
 import Filter from "../components/Filter";
 import ProductCard from "../components/ProductCard";
 import useProductStore from "../stores/productStore.js";
+import Lottie from "react-lottie";
+import loadingAnimation from "../animations/loading_ani.json";
 
 export default function ProductPage() {
-  const { products } = useProductStore();
+  const { products, fetchAllProducts, loading } = useProductStore();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
-    useProductStore.getState().fetchAllProducts();
+    fetchAllProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
+  };
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loadingAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
   return (
@@ -23,7 +36,17 @@ export default function ProductPage() {
           <Filter />
         </aside>
         <main className="w-full lg:w-3/4 lg:ml-4 my-5">
-          {products.length > 0 ? (
+          {loading ? (
+            <div className="max-w-md mx-auto">
+              <div className="w-64 h-64 mx-auto">
+                <Lottie options={defaultOptions} height={256} width={256} />
+              </div>
+              <p className="text-2xl font-semibold text-gray-700 mb-4 animate-pulse">
+                Server will get active soon. Till then grab yourself a coffee!
+                ☕
+              </p>
+            </div>
+          ) : products?.length > 0 ? (
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {products.map((product) => (
                 <ProductCard key={product._id} {...product} />
@@ -52,7 +75,7 @@ export default function ProductPage() {
         className={`fixed bottom-0 left-0 right-0 bg-white z-50 transition-transform duration-300 ease-in-out transform lg:hidden ${
           isFilterOpen ? "translate-y-0" : "translate-y-full"
         }`}
-        style={{ display: isFilterOpen ? "block" : "none" }} // Always keep it mounted
+        style={{ display: isFilterOpen ? "block" : "none" }}
       >
         <Filter isOpen={isFilterOpen} toggleFilter={toggleFilter} />
       </div>
