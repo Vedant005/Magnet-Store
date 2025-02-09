@@ -22,7 +22,7 @@ function ProductCard(product) {
       fetchCartItems();
       fetchWishlistItems();
     }
-    useProductStore.getState().fetchAllProducts();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
@@ -75,6 +75,7 @@ function ProductCard(product) {
             className="w-full h-full object-cover rounded-t-xl cursor-pointer"
             src={img}
             alt={title}
+            loading="lazy"
             onClick={() => navigate(`/products/${_id}`)}
           />
           <button
