@@ -34,11 +34,11 @@ const useWishlistStore = create(
           : response.data.data;
         const normalizedItems = get().normalizeCartData(wishListData);
 
-        set({ wishlistItems: normalizedItems, loading: false });
+        set({ wishlistItems: normalizedItems, fetchingWishlist: false });
       } catch (error) {
         set({
           error: error.response?.data?.message || error.message,
-          fetchingWishlist: false,
+          // fetchingWishlist: false,
         });
       }
     },
