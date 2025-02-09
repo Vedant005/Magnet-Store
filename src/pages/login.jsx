@@ -18,7 +18,6 @@ const Login = () => {
       setError("");
       navigate("/");
     } catch (err) {
-      console.log(error);
       setError(err.message);
     }
   };
