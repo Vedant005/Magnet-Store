@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Header from "../components/Header";
-
 import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import Lottie from "react-lottie";
@@ -8,13 +7,19 @@ import animationData from "../animations/empty-wishlist.json"; // Lottie animati
 import useWishlistStore from "../stores/wishlistStore";
 import useCartStore from "../stores/cartStore";
 import { toast } from "react-toastify";
+import loadingAnimation from "../animations/loading_ani.json";
 
 export default function Wishlist() {
   const { addToCart, cartItems } = useCartStore();
   const navigate = useNavigate();
 
-  const { fetchWishlistItems, wishlistItems, toggleWishlist, clearWishlist } =
-    useWishlistStore();
+  const {
+    fetchWishlistItems,
+    wishlistItems,
+    toggleWishlist,
+    clearWishlist,
+    fetchingWishlist,
+  } = useWishlistStore();
 
   const handleAddToCart = (productId) => {
     if (cartItems?.some((item) => item.product === productId)) {
@@ -50,6 +55,27 @@ export default function Wishlist() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+  const loadingOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loadingAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  if (fetchingWishlist) {
+    return (
+      <div className="max-w-md mx-auto">
+        <div className="w-64 h-64 mx-auto">
+          <Lottie options={loadingOptions} height={256} width={256} />
+        </div>
+        <p className="text-2xl font-semibold text-gray-700 mb-4 animate-pulse">
+          Server will get active soon. Till then grab yourself a coffee! ☕
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
