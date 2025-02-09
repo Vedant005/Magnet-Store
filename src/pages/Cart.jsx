@@ -6,6 +6,7 @@ import emptyCartAnimation from "../animations/empty-cart.json";
 import useCartStore from "../stores/cartStore";
 import useUserStore from "../stores/userStore";
 import { toast } from "react-toastify";
+import loadingAnimation from "../animations/loading_ani.json";
 
 function Cart() {
   const {
@@ -27,6 +28,15 @@ function Cart() {
     loop: true,
     autoplay: true,
     animationData: emptyCartAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const loadingOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loadingAnimation,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
@@ -58,8 +68,13 @@ function Cart() {
 
   if (fetchingCart) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-2xl text-gray-700">Loading your cart...</div>
+      <div className="max-w-md mx-auto">
+        <div className="w-64 h-64 mx-auto">
+          <Lottie options={loadingOptions} height={256} width={256} />
+        </div>
+        <p className="text-2xl font-semibold text-gray-700 mb-4 animate-pulse">
+          Server will get active soon. Till then grab yourself a coffee! ☕
+        </p>
       </div>
     );
   }
