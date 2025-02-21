@@ -44,8 +44,6 @@ const useProductStore = create((set, get) => ({
         loading: false,
       }));
     } catch (error) {
-      console.log(error);
-
       set((state) => ({
         error: error.response?.data?.message || error.message,
         // loading: false,

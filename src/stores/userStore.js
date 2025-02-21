@@ -18,6 +18,24 @@ const useUserStore = create(
         loading: false,
         error: null,
 
+        register: async (credentials) => {
+          set({ loading: true, error: null });
+          try {
+            const response = await apiClient.post(
+              "/users/register",
+              credentials
+            );
+            set({ loading: false });
+            toast.success("Registration successful! Please login to continue.");
+          } catch (error) {
+            set({
+              error: error.response?.data?.message || error.message,
+              loading: false,
+            });
+            toast.error(error.response?.data?.message || "Registration failed");
+            throw error;
+          }
+        },
         // Login user
         login: async (credentials) => {
           set({ loading: true, error: null });
